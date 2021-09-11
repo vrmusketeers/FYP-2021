@@ -1,37 +1,28 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
 import Login from '../pages/auth/login';
 import Signup from '../pages/auth/signup';
 import ForgotPassword from '../pages/auth/forgot-password';
-import DashboardLayout from './components/DashboardLayout';
-import MainLayout from './components/MainLayout';
-import Account from './pages/Account';
-import CustomerList from './pages/CustomerList';
-import Dashboard from './pages/Dashboard';
-import ProductList from './pages/ProductList';
-import Register from './pages/Register';
-import Settings from './pages/Settings';
 import NotFound from '../pages/not-found/not-found';
+import Dashboard from '../pages/dashboard/dashboard';
+
+import LMaster from '../shared/components/layouts/master/master';
+import LDashboard from '../shared/components/layouts/dashboard/l-dashboard';
 
 const routes = [
   {
     path: 'app',
-    element: <DashboardLayout />,
+    element: <LDashboard />,
     children: [
-      { path: 'account', element: <Account /> },
-      { path: 'customers', element: <CustomerList /> },
       { path: 'dashboard', element: <Dashboard /> },
-      { path: 'products', element: <ProductList /> },
-      { path: 'settings', element: <Settings /> },
-      { path: '*', element: <Navigate to="/404" /> }
     ]
   },
   {
     path: '/',
-    element: <MainLayout />,
+    element: <LMaster />,
     children: [
       { path: 'login', element: <Login /> },
       { path: 'signup', element: <Signup /> },
+      { path: 'recover-password', element: <ForgotPassword /> },
       { path: '404', element: <NotFound /> }
     ]
   }
