@@ -7,5 +7,7 @@ interface Signup {
     mrnNumber: string;
     phoneNumber: string;
     lastVisit: string;
+    country: string;
+    state: string;
     detection: string;
 }
