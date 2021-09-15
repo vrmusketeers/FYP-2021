@@ -1,24 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { ReactNode } from 'react';
 import './App.css';
+import { BrowserRouter, Route } from "react-router-dom";
+import { Container, CssBaseline, Switch } from '@material-ui/core';
+import Dashboard from './pages/dashboard/dashboard';
+import MLDashboard from './pages/ml-dashboard/ml-dashboard';
+import NotFound from './pages/not-found/not-found';
+import PatientReports from './pages/patient-reports/patient-reports';
+import UserProfile from './pages/user-profile/user-profile';
+import { Report } from '@material-ui/icons';
+import MiniDrawer from './shared/components/layouts/master/master-layout';
+import MasterLayout from './shared/components/layouts/master/master-layout';
+
+interface RoutesProps {
+  path: string;
+  component: React.ComponentType<any>
+}
+const routes: RoutesProps[] = [{
+  path: '/dashboard',
+  component: Dashboard
+},
+{
+  path: '/ml-dashboard',
+  component: MLDashboard
+},
+{
+  path: '/reports',
+  component: PatientReports
+},
+{
+  path: '/profile',
+  component: UserProfile
+},
+{
+  path: '/not-found',
+  component: NotFound
+}];
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ 'width': '100%' }}>
+      <BrowserRouter>
+        <CssBaseline />
+        <MasterLayout>
+          <Container maxWidth='lg'>
+            {routes.map((route, i) => {
+              return <Route exact path={route.path} key={i} component={route.component} />
+            })}
+          </Container>
+        </MasterLayout>
+      </BrowserRouter>
     </div>
   );
 }

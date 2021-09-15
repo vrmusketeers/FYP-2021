@@ -1,9 +1,10 @@
-import React from 'react';
+interface NotFoundProps {
 
-function NotFound() {
-  return (
-    <h1>NotFound</h1>
-  );
 }
+
+const NotFound: React.FC<NotFoundProps> = () => {
+    return <h1> NotFound </h1>
+}
+
 
 export default NotFound;
