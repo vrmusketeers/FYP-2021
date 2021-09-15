@@ -1,14 +1,12 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import './App.css';
 import { BrowserRouter, Route } from "react-router-dom";
-import { Container, CssBaseline, Switch } from '@material-ui/core';
+import { Container, CssBaseline } from '@material-ui/core';
 import Dashboard from './pages/dashboard/dashboard';
 import MLDashboard from './pages/ml-dashboard/ml-dashboard';
 import NotFound from './pages/not-found/not-found';
 import PatientReports from './pages/patient-reports/patient-reports';
 import UserProfile from './pages/user-profile/user-profile';
-import { Report } from '@material-ui/icons';
-import MiniDrawer from './shared/components/layouts/master/master-layout';
 import MasterLayout from './shared/components/layouts/master/master-layout';
 
 interface RoutesProps {

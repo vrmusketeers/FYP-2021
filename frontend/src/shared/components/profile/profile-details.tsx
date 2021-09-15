@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Box,
-  Button,
   Card,
   CardContent,
   CardHeader,
@@ -11,7 +10,7 @@ import {
 } from '@material-ui/core';
 
 const ProfileDetails = () => {
-  const [values, setValues] = useState({
+  const [values,] = useState({
     firstName: 'Katarina',
     lastName: 'Smith',
     email: 'demo@devias.io',
