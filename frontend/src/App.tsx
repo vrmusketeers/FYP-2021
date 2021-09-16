@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { BrowserRouter, Route } from "react-router-dom";
 import { Container, CssBaseline } from '@material-ui/core';
@@ -8,6 +8,7 @@ import NotFound from './pages/not-found/not-found';
 import PatientReports from './pages/patient-reports/patient-reports';
 import UserProfile from './pages/user-profile/user-profile';
 import MasterLayout from './shared/components/layouts/master/master-layout';
+import Login from './pages/auth/login';
 
 interface RoutesProps {
   path: string;
@@ -32,20 +33,23 @@ const routes: RoutesProps[] = [{
 {
   path: '/not-found',
   component: NotFound
-}];
+}
+];
 
 function App() {
+  const [isLoggedIn,] = useState(true);
   return (
     <div style={{ 'width': '100%' }}>
       <BrowserRouter>
         <CssBaseline />
-        <MasterLayout>
+        {isLoggedIn && <MasterLayout>
           <Container maxWidth='lg'>
             {routes.map((route, i) => {
               return <Route exact path={route.path} key={i} component={route.component} />
             })}
           </Container>
-        </MasterLayout>
+        </MasterLayout>}
+        {!isLoggedIn && <Route exact path="/login" component={Login} />}
       </BrowserRouter>
     </div>
   );

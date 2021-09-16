@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-const Budget = (props: DCardsProps) => {
+const DCard = (props: DCardsProps) => {
   const classes = useStyles();
   const iconColor = (color: string) => {
     switch (color) {
@@ -125,4 +125,4 @@ const Budget = (props: DCardsProps) => {
   )
 }
 
-export default Budget;
+export default DCard;

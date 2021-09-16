@@ -1,17 +1,30 @@
 import { Box, Container, Grid } from "@material-ui/core";
 import React from "react";
-import Budget from "../../shared/components/vital-cards/total";
+import DCard from "../../shared/components/vital-cards/d-card";
 
-import RecordVoiceOverIcon from '@material-ui/icons/RecordVoiceOver';
 import GroupIcon from '@material-ui/icons/Group';
-import LoopIcon from '@material-ui/icons/Loop';
-import HourglassEmptyIcon from '@material-ui/icons/HourglassEmpty';
 
 interface DashboardProps {
 
 }
 
 const Dashboard: React.FC<DashboardProps> = () => {
+
+    const renderDCard = (label: string, vitalValue: string, color: string) => {
+        return (
+            <Grid
+                item
+                lg={3}
+                sm={6}
+                xl={3}
+                xs={12}
+            >
+                <DCard label={label} vitalValue={vitalValue} color={color}>
+                    <GroupIcon />
+                </DCard>
+            </Grid>
+        );
+    }
     return (
         <React.Fragment>
             <Box
@@ -25,50 +38,14 @@ const Dashboard: React.FC<DashboardProps> = () => {
                         container
                         spacing={3}
                     >
-                        <Grid
-                            item
-                            lg={3}
-                            sm={6}
-                            xl={3}
-                            xs={12}
-                        >
-                            <Budget label="SOCIAL TOTAL A" vitalValue="123" color="blue">
-                                <GroupIcon />
-                            </Budget>
-                        </Grid>
-                        <Grid
-                            item
-                            lg={3}
-                            sm={6}
-                            xl={3}
-                            xs={12}
-                        >
-                            <Budget label="VERBAL TOTAL BV" vitalValue="123" color="green">
-                                <RecordVoiceOverIcon />
-                            </Budget>
-                        </Grid>
-                        <Grid
-                            item
-                            lg={3}
-                            sm={6}
-                            xl={3}
-                            xs={12}
-                        >
-                            <Budget label="RBR TOTAL C" vitalValue="123" color="purple">
-                                <LoopIcon />
-                            </Budget>
-                        </Grid>
-                        <Grid
-                            item
-                            lg={3}
-                            sm={6}
-                            xl={3}
-                            xs={12}
-                        >
-                            <Budget label="ONSET TOTAL D" vitalValue="123" color="orange">
-                                <HourglassEmptyIcon />
-                            </Budget>
-                        </Grid>
+                        {renderDCard("SOCIAL TOTAL A", "123", "blue")}
+                        {renderDCard("VERBAL TOTAL BV", "123", "green")}
+                        {renderDCard("RBR TOTAL C", "123", "purple")}
+                        {renderDCard("ONSET TOTAL D", "123", "orange")}
+                        {renderDCard("SOCIAL TOTAL A", "123", "blue")}
+                        {renderDCard("VERBAL TOTAL BV", "123", "green")}
+                        {renderDCard("RBR TOTAL C", "123", "purple")}
+                        {renderDCard("ONSET TOTAL D", "123", "orange")}
                         <Grid
                             item
                             lg={8}
