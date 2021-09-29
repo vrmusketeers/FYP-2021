@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useHistory} from 'react-router-dom';
 import {
   Box,
   Button,
@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 
 const Login = () => {
-
+  const history = useHistory();
 
   return (
     <>
@@ -24,7 +24,6 @@ const Login = () => {
         }}
       >
         <Container maxWidth="sm">
-          <form>
             <Box sx={{ mb: 3 }}>
               <Typography
                 color="textPrimary"
@@ -79,7 +78,7 @@ const Login = () => {
                 color="primary"
                 fullWidth
                 size="large"
-                type="submit"
+                onClick={()=>{history.push('/dashboard')}}
                 variant="contained"
               >
                 Sign in now
@@ -91,11 +90,10 @@ const Login = () => {
             >
               Don&apos;t have an account?
                   {' '}
-              <Link component={RouterLink} to="/register" variant="h6" underline="hover">
+              <Link component={RouterLink} to="/signup" variant="h6" underline="hover">
                 Sign up
                   </Link>
             </Typography>
-          </form>
         </Container>
       </Box>
     </>

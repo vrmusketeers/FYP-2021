@@ -9,31 +9,44 @@ import PatientReports from './pages/patient-reports/patient-reports';
 import UserProfile from './pages/user-profile/user-profile';
 import MasterLayout from './shared/components/layouts/master/master-layout';
 import Login from './pages/auth/login';
+import Signup from './pages/auth/signup';
 
 interface RoutesProps {
   path: string;
   component: React.ComponentType<any>
 }
-const routes: RoutesProps[] = [{
-  path: '/dashboard',
-  component: Dashboard
-},
-{
-  path: '/ml-dashboard',
-  component: MLDashboard
-},
-{
-  path: '/reports',
-  component: PatientReports
-},
-{
-  path: '/profile',
-  component: UserProfile
-},
-{
-  path: '/not-found',
-  component: NotFound
-}
+const routes: RoutesProps[] = [
+  {
+    path: '/',
+    component: Login
+  },
+  {
+    path: '/login',
+    component: Login
+  },
+  {
+    path: '/signup',
+    component: Signup
+  }, {
+    path: '/dashboard',
+    component: Dashboard
+  },
+  {
+    path: '/ml-dashboard',
+    component: MLDashboard
+  },
+  {
+    path: '/reports',
+    component: PatientReports
+  },
+  {
+    path: '/profile',
+    component: UserProfile
+  },
+  {
+    path: '/not-found',
+    component: NotFound
+  }
 ];
 
 function App() {

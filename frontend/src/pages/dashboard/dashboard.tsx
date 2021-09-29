@@ -3,6 +3,7 @@ import React from "react";
 import DCard from "../../shared/components/vital-cards/d-card";
 
 import GroupIcon from '@material-ui/icons/Group';
+import DGraphContainer from "../../shared/components/graphs/graph-container";
 
 interface DashboardProps {
 
@@ -53,7 +54,7 @@ const Dashboard: React.FC<DashboardProps> = () => {
                             xl={9}
                             xs={12}
                         >
-                            Sales
+                            <DGraphContainer />
                         </Grid>
                         <Grid
                             item
