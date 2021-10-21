@@ -1,4 +1,5 @@
-export default [
+
+export const customers = [
     {
       id: 234234234,
       address: {

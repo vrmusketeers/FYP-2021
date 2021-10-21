@@ -1,7 +1,7 @@
 import { Avatar, Box, Card, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import customers from '../../_mock/customers';
+import { customers } from '../../_mock/customers';
 import SendIcon from '@material-ui/icons/Send';
 import { useHistory } from 'react-router-dom';
 
@@ -11,7 +11,8 @@ interface PatientListProps {
 
 const PatientList: React.FC<PatientListProps> = () => {
     const history = useHistory();
-    const [limit, setLimit] = useState(20);
+
+    const [limit] = useState(20);
     return (
         <Card>
             <PerfectScrollbar>

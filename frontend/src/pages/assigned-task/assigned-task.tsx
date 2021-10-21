@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Card, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import customers from '../../_mock/customers';
+import { customers } from '../../_mock/customers';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 interface AssignedTaskProps {
@@ -9,7 +9,7 @@ interface AssignedTaskProps {
 }
 
 const AssignedTask: React.FC<AssignedTaskProps> = () => {
-    const [limit, setLimit] = useState(20);
+    const [limit] = useState(20);
     return (
         <Card>
             <PerfectScrollbar>
