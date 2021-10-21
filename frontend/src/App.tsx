@@ -10,6 +10,8 @@ import UserProfile from './pages/user-profile/user-profile';
 import MasterLayout from './shared/components/layouts/master/master-layout';
 import Login from './pages/auth/login';
 import Signup from './pages/auth/signup';
+import PatientList from './pages/patient-list/patient-list';
+import AssignedTask from './pages/assigned-task/assigned-task';
 
 interface RoutesProps {
   path: string;
@@ -46,6 +48,14 @@ const routes: RoutesProps[] = [
   {
     path: '/not-found',
     component: NotFound
+  },
+  {
+    path: '/patient-list',
+    component: PatientList
+  },
+  {
+    path: '/assigned-task',
+    component: AssignedTask
   }
 ];
 

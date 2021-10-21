@@ -17,6 +17,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import { useHistory } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -89,6 +93,7 @@ export default function MasterLayout(props: any) {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const history = useHistory();
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -121,7 +126,7 @@ export default function MasterLayout(props: any) {
                     </IconButton>
                     <Typography variant="h6" noWrap>
                         Musketeer MRI Scanner
-          </Typography>
+                    </Typography>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -144,12 +149,14 @@ export default function MasterLayout(props: any) {
                 </div>
                 <Divider />
                 <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
+                    <ListItem button onClick={()=>history.push('/patient-list')}>
+                        <ListItemIcon><ListAltIcon /></ListItemIcon>
+                        <ListItemText primary={'Dashboard'} />
+                    </ListItem>
+                    <ListItem button onClick={()=>history.push('/assigned-task')}>
+                        <ListItemIcon><AssignmentIcon /></ListItemIcon>
+                        <ListItemText primary={'Assigned Task'} />
+                    </ListItem>
                 </List>
                 <Divider />
                 <List>

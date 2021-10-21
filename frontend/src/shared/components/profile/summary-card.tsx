@@ -11,6 +11,7 @@ import {
   Theme,
   Typography
 } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 
 const user = {
   avatar: '/static/images/avatars/avatar_6.png',
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ProfileSummary = () => {
   const classes = useStyles();
+  const history = useHistory();
   return (
     <Card>
       <CardContent>
@@ -52,7 +54,7 @@ const ProfileSummary = () => {
             flexDirection: 'column'
           }}
         >
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" className={classes.large} />
+          <Avatar alt="Remy Sharp" src={user.avatar} className={classes.large} />
           <Typography
             color="textPrimary"
             gutterBottom
@@ -74,8 +76,9 @@ const ProfileSummary = () => {
           color="primary"
           fullWidth
           variant="text"
+          onClick={()=>history.push('/dashboard')}
         >
-          Check My Results
+          Visit Dashboard
       </Button>
       </CardActions>
     </Card>

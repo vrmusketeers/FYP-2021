@@ -78,7 +78,7 @@ const Login = () => {
                 color="primary"
                 fullWidth
                 size="large"
-                onClick={()=>{history.push('/dashboard')}}
+                onClick={()=>{history.push('/patient-list')}}
                 variant="contained"
               >
                 Sign in now
@@ -90,7 +90,7 @@ const Login = () => {
             >
               Don&apos;t have an account?
                   {' '}
-              <Link component={RouterLink} to="/signup" variant="h6" underline="hover">
+              <Link component={RouterLink} to="/patient-list" variant="h6" underline="hover">
                 Sign up
                   </Link>
             </Typography>
