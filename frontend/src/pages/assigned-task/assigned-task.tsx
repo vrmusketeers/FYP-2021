@@ -1,9 +1,6 @@
-import { Avatar, Box, Button, Card, Checkbox, Container, Grid, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography } from "@material-ui/core";
+import { Avatar, Box, Button, Card, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
 import React, { useState } from "react";
-import DCard from "../../shared/components/vital-cards/d-card";
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import GroupIcon from '@material-ui/icons/Group';
-import DGraphContainer from "../../shared/components/graphs/graph-container";
 import customers from '../../_mock/customers';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 

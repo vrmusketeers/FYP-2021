@@ -1,4 +1,5 @@
-import { Link, Link as RouterLink } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   Box,
@@ -8,7 +9,6 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
-import React from 'react';
 
 const Signup = () => {
 
