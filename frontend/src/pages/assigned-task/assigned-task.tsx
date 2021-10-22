@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Card, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { customers } from '../../_mock/customers';
+import { user_data } from '../../_mock/user-data';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 
 interface AssignedTaskProps {
@@ -14,7 +14,7 @@ const AssignedTask: React.FC<AssignedTaskProps> = () => {
         <Card>
             <PerfectScrollbar>
                 <Box sx={{ minWidth: 1050 }}>
-                    <Table>
+                    <Table stickyHeader>
                         <TableHead>
                             <TableRow>
                                 <TableCell padding="checkbox">
@@ -40,10 +40,10 @@ const AssignedTask: React.FC<AssignedTaskProps> = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {customers.slice(0, limit).map((customer) => (
+                            {user_data.slice(0, limit).map((user) => (
                                 <TableRow
                                     hover
-                                    key={customer.id}
+                                    key={user.id}
                                 >
                                     <TableCell padding="checkbox">
                                     </TableCell>
@@ -56,30 +56,30 @@ const AssignedTask: React.FC<AssignedTaskProps> = () => {
                                         >
                                             <Avatar
                                                 style={{ marginRight: 20 }}
-                                                src={customer.avatarUrl}
+                                                src={user.avatarUrl}
                                             >
 
-                                                &nbsp;&nbsp; {customer.name}
+                                                &nbsp;&nbsp; {user.name}
                                             </Avatar>
                                             <Typography
                                                 color="textPrimary"
                                                 variant="body1"
                                             >
-                                                {customer.name}
+                                                {user.name}
                                             </Typography>
                                         </Box>
                                     </TableCell>
                                     <TableCell>
-                                        {customer.email}
+                                        {user.age}
                                     </TableCell>
                                     <TableCell>
-                                        {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
+                                        {`${user.gender}`}
                                     </TableCell>
                                     <TableCell>
-                                        {customer.phone}
+                                        {user.phone}
                                     </TableCell>
                                     <TableCell>
-                                        {customer.createdAt}
+                                        {user.createdAt}
                                     </TableCell>
                                     <TableCell>
                                         <Button variant="contained"
