@@ -13,26 +13,19 @@ const DGraphContainer= () => {
   return (
     <Card>
       <CardHeader
-        action={(
-          <Button
-            endIcon={<ArrowDropDownIcon />}
-            size="small"
-            variant="text"
-          >
-            Last 7 days
-          </Button>
-        )}
-        title="Latest Sales"
+        title="Image Viewer"
       />
       <Divider />
       <CardContent>
         <Box
           sx={{
             height: 400,
-            position: 'relative'
+            position: 'relative',
+            padding:0
           }}
         >
           {/* This is the place where graph will go */}
+          <iframe style={{width:'100%', height:'100%', border:0}} src="./static/index.html"></iframe>
         </Box>
       </CardContent>
       <Divider />
