@@ -1,4 +1,4 @@
-import { Box, Container, Grid } from "@material-ui/core";
+import { Box, Card, CardContent, CardHeader, Container, Divider, Grid } from "@material-ui/core";
 import React from "react";
 import DCard from "../../shared/components/vital-cards/d-card";
 
@@ -63,30 +63,29 @@ const Dashboard: React.FC<DashboardProps> = () => {
                             xl={3}
                             xs={12}
                         >
-                            Traffic
-                        </Grid>
-                        <Grid
-                            item
-                            lg={4}
-                            md={6}
-                            xl={3}
-                            xs={12}
-                        >
-                            Latest Products
-                        </Grid>
-                        <Grid
-                            item
-                            lg={8}
-                            md={12}
-                            xl={9}
-                            xs={12}
-                        >
-                            LAtest Orders
+                            <Card>
+                                <CardHeader
+                                    title="Voxel Intensity"
+                                />
+                                <Divider />
+                                <CardContent >
+                                    <Box
+                                        sx={{
+                                            height: 300,
+                                            position: 'relative',
+                                            padding: 0
+                                        }}
+                                    >
+                                        <img alt="Voxel Images" style={{ height: '100%', width: '100%' }} src='./static/images/carpet_plot.png'></img>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+
                         </Grid>
                     </Grid>
                 </Container>
             </Box>
-        </React.Fragment>
+        </React.Fragment >
     )
 }
 
