@@ -12,6 +12,8 @@ import Login from './pages/auth/login';
 import Signup from './pages/auth/signup';
 import PatientList from './pages/patient-list/patient-list';
 import AssignedTask from './pages/assigned-task/assigned-task';
+import { observer } from "mobx-react-lite";
+import { appStore } from "./store/app-store";
 
 interface RoutesProps {
   path: string;
@@ -59,8 +61,9 @@ const routes: RoutesProps[] = [
   }
 ];
 
-function App() {
+const App = observer(()=>{
   const [isLoggedIn,] = useState(true);
+  const title = appStore.appName;
   return (
     <div style={{ 'width': '100%' }}>
       <BrowserRouter>
@@ -72,10 +75,11 @@ function App() {
             })}
           </Container>
         </MasterLayout>}
+        {title}
         {!isLoggedIn && <Route exact path="/login" component={Login} />}
       </BrowserRouter>
     </div>
   );
-}
+});
 
 export default App;

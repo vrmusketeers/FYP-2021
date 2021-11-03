@@ -20,6 +20,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { useHistory } from 'react-router-dom';
+import { appStore } from "./../../../../store/app-store";
 
 const drawerWidth = 240;
 
@@ -124,7 +125,7 @@ export default function MasterLayout(props: any) {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        Musketeer MRI Scanner
+                        {appStore.appName}
                     </Typography>
                 </Toolbar>
             </AppBar>
