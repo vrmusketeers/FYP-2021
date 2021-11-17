@@ -13,8 +13,6 @@ import { useCallback } from 'react';
 const Login = () => {
   const history = useHistory();
 
-  const handleLogin = useCallback
-
   return (
     <>
       <Box

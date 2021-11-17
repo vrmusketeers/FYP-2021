@@ -1,9 +1,7 @@
-import { observable, action, computed } from "mobx";
+import { observable, action } from "mobx";
 
 class AppStore {
-    constructor() {
 
-    }
     @observable appName: string = "Autism Detection";
     @observable isUserLoggedin: boolean = false;
 
