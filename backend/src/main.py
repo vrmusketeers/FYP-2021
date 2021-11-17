@@ -22,6 +22,7 @@ import datetime
 import json
 from datetime import datetime
 
+
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:Admin123@34.83.19.87:3306/musketeerdb'
@@ -68,14 +69,28 @@ class Tests(db.Model):
     testResults=db.Column(db.String(100))
     description = db.Column(db.String(45))
     patientID = db.Column(db.Integer)
+    fileID = db.Column(db.Integer)
+    imageID = db.Column(db.Integer)
     testDate = db.Column(db.DateTime, default=datetime.now)
 
-    def __init__(self, testName,testType,testResults,description,patientID):
+    def __init__(self, testName,testType,testResults,description,patientID,fileID,imageID,testDate):
         self.testName = testName
         self.testType=testType
         self.testResults=testResults
         self.description=description
         self.patientID=patientID
+        self.imageID=imageID
+        self.fileID=fileID
+        self.testDate=testDate
+
+class TestImages(db.Model):
+    imageID = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.BLOB)
+    description = db.Column(db.String(100))
+
+    def __init__(self, image, description):
+        self.image = image
+        self.description=description
 
 class UserSchema(ma.Schema):
     class Meta:
@@ -90,6 +105,21 @@ class TestSchema(ma.Schema):
 
 test_schema = TestSchema()
 tests_schema = TestSchema(many=True)
+
+
+class PatientsTestSchema(ma.Schema):
+    class Meta:
+        fields=('testID','patientID','fileID','imageID','description','testName','testDate')
+
+patientTest_schema = PatientsTestSchema()
+patientTests_schema = PatientsTestSchema(many=True)
+
+class ImageSchema(ma.Schema):
+    class Meta:
+        fields=('imageID','image','description')
+
+image_schema = ImageSchema()
+
 
 @app.route('/')
 def hello():
@@ -207,6 +237,8 @@ def create_test():
     tests = Tests(testName,testType,testResults,description,patientID)
     db.session.add(tests)
     db.session.commit()
+
+    print(test_schema.get_attribute(id))
     
     return test_schema.jsonify(tests)
 
@@ -218,6 +250,93 @@ def getPatientsTests():
     results = tests_schema.dump(tests)
     return jsonify(results)
 
+@app.route('/getPatientTestDetails', methods=['GET'])
+def getPatientTestDetails():
+    #reqPatientID=request.json['patientId']
+    reqPatientID=request.args.get('patientId')
+    cursor = db.session.execute("""
+        select patients.patientID,  concat(user.firstName,' ',user.lastName) patientName, patients.processed, DATE_FORMAT(patients.lastVisitDate, '%Y-%m-%d') lastVisitDate, tests.fileID MRNNo,pv.*
+        from user,patients, tests, phenotypic_values pv
+        where user.userID = patients.userID and patients.patientID=tests.patientID and tests.fileID=pv.file_id
+        and user.userType='Patient' and patients.patientID=:param;
+    """,{"param":reqPatientID})
+    data = []
+    rows = cursor.fetchall()
+
+    data.append([{**row} for row in rows])
+
+    #results = [dict(patientId=row[0],patientName=row[1], age=row[2],email=row[3],phone=row[4],state=row[5],city=row[6],country=row[7],processed=row[8],lastVisitDate=row[9])
+    #          for row in cursor.fetchall()]
+    #rows = cursor.fetchall()
+    #for row in rows:
+    #    data.append(dict(zip(columns, row)))
+
+    return json.dumps(data)
+
+
+def convertToBinaryData(filename):
+    # Convert digital data to binary format
+    with open(filename, 'rb') as file:
+        binaryData = file.read()
+    return binaryData
+
+@app.route('/uploadImage', methods=['POST'])
+def uploadImage():
+    imagefile=request.json['imagefile']
+    description=request.json['description']
+    testID = request.json['testID']
+
+    ##file = convertToBinaryData(imagefile)
+    with open(imagefile, encoding="ISO-8859-1", errors='ignore') as f:
+        contents = f.read()
+
+    contents=json.dumps(imagefile).encode('utf-8')
+
+    image = TestImages(contents,description)
+    db.session.add(image)
+    db.session.commit()
+
+    #imageID = image.imageID
+    #print (imageID)
+    #cursor = db.session.execute("""
+    #    update tests set imageID = :imageID where testID = :testID ;
+    #""",(imageID,testID))
+
+    #db.session.commit()
+    
+    return image_schema.jsonify(image)
+
+""" @app.route('/getPatientsProfile', methods=['POST'])
+def getPatientsProfile():
+    reqPatientID=request.json['patientId']
+    user = User.query.get(reqPatientID)
+
+    return user_schema.jsonify(user) """
+
+@app.route('/getPatientsProfile', methods=['GET'])
+def getPatientsProfile():
+    #reqPatientID=request.json['patientId']
+    patientId=request.args.get('patientId')
+    cursor = db.session.execute("""
+        select patients.patientID,  concat(user.firstName,' ',user.lastName) patientName, DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(dateOfBirth, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT(dateOfBirth, '00-%m-%d')) age, email, phone, state, city, country,patients.processed, DATE_FORMAT(patients.lastVisitDate, '%Y-%m-%d') lastVisitDate
+        from user,patients where user.userID = patients.userID and user.userType='Patient' and patients.patientID=:param;
+    """,{"param":patientId})
+    results = [dict(patientId=row[0],patientName=row[1], age=row[2],email=row[3],phone=row[4],state=row[5],city=row[6],country=row[7],processed=row[8],lastVisitDate=row[9])
+               for row in cursor.fetchall()]
+
+    return jsonify(results)
+
+
+@app.route('/getAllPatientTestDetails', methods=['GET'])
+def getAllPatientTestDetails():
+
+    cursor = db.session.execute("""
+        select user.userId,  concat(user.firstName,' ',user.lastName) patientName, DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(dateOfBirth, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT(dateOfBirth, '00-%m-%d')) age, tests.testID, tests.fileID, tests.testDate from user, tests where user.userId = tests.patientID and user.userType='Patient';
+    """)
+    results = [dict(userId=row[0],patientName=row[1], age=row[2],testID=row[3],MRNNo=row[4],testDate=row[5])
+               for row in cursor.fetchall()]
+
+    return jsonify(results)
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
