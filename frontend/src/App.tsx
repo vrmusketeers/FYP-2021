@@ -73,10 +73,12 @@ const App = observer(() => {
           console.log(result);
         }
       )
+      return <h1>Hello World</h1>
   }, []);
+
+  x();
   return (
     <div style={{ 'width': '100%' }}>
-      {x()}
       <BrowserRouter>
         <CssBaseline />
         {isLoggedIn && <MasterLayout>
