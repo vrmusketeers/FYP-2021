@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './App.css';
 import { BrowserRouter, Route } from "react-router-dom";
 import { Container, CssBaseline } from '@material-ui/core';
@@ -64,6 +64,22 @@ const routes: RoutesProps[] = [
 const App = observer(()=>{
   const [isLoggedIn,] = useState(true);
   const title = appStore.appName;
+  const x = useCallback(()=>{
+    fetch("/api/getPatientTestDetails?patientId=2")
+    .then(res => res.json())
+    .then(
+      (result) => {
+        console.log('This is the result');
+        console.log(result);
+      },
+      // Note: it's important to handle errors here
+      // instead of a catch() block so that we don't swallow
+      // exceptions from actual bugs in components.
+      (error) => {
+        console.log(error);
+      }
+    )
+  },[]);
   return (
     <div style={{ 'width': '100%' }}>
       <BrowserRouter>
