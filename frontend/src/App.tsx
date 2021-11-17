@@ -61,19 +61,19 @@ const routes: RoutesProps[] = [
   }
 ];
 
-const App = observer(()=>{
+const App = observer(() => {
   const [isLoggedIn,] = useState(true);
   const title = appStore.appName;
-  const x = useCallback(()=>{
-    fetch("/api/getPatientTestDetails?patientId=2")
-    .then(res => res.json())
-    .then(
-      (result) => {
-        console.log('This is the result');
-        console.log(result);
-      }
-    )
-  },[]);
+  const x = useCallback(async () => {
+    await fetch("/api/getPatientTestDetails?patientId=2")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          console.log('This is the result');
+          console.log(result);
+        }
+      )
+  }, []);
   return (
     <div style={{ 'width': '100%' }}>
       {x()}
