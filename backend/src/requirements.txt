@@ -7,3 +7,4 @@ Flask-SQLAlchemy==2.5.1
 Flask-Marshmallow==0.14.0
 Mysqlclient==2.0.3
 marshmallow-sqlalchemy==0.26.1
+flask-cors==3.0.10

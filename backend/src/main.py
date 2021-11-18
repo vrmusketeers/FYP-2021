@@ -13,18 +13,20 @@
 # limitations under the License.
 
 # [START gae_flex_quickstart]
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask import request
 from flask import jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from flask_cors import CORS #comment this on deployment
 import datetime
 import json
 from datetime import datetime
+import os
 
 
 app = Flask(__name__)
-
+app = Flask(__name__, static_url_path='', static_folder='frontend/build')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:Admin123@34.83.19.87:3306/musketeerdb'
 ##app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:Cisco123@localhost:3306/pyflask'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
@@ -119,12 +121,6 @@ class ImageSchema(ma.Schema):
         fields=('imageID','image','description')
 
 image_schema = ImageSchema()
-
-
-@app.route('/')
-def hello():
-    """Return a friendly HTTP greeting."""
-    return 'Hello World!'
 
 @app.route('/addUser', methods=['POST'])
 def add_user():
@@ -337,6 +333,15 @@ def getAllPatientTestDetails():
                for row in cursor.fetchall()]
 
     return jsonify(results)
+
+@app.route("/", defaults={'path':''})
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and os.path.exists(app.static_folder + '/' + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, 'index.html')
+
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
