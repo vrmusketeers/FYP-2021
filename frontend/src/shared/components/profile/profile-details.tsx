@@ -8,6 +8,9 @@ import {
   Grid,
   Typography
 } from '@material-ui/core';
+import { useParams } from "react-router-dom";
+import { useMountEffect } from '../../hooks/useMountEffect';
+import { appStore } from '../../../store/app-store';
 
 const ProfileDetails = () => {
   const [values,] = useState({
@@ -19,6 +22,12 @@ const ProfileDetails = () => {
     country: 'USA',
     age: '32',
     lastVisit: '09/12/2021'
+  });
+
+  let { userId } = useParams<{ userId: string }>();
+
+  useMountEffect(()=>{
+    appStore.getUserById(userId);
   });
 
   const renderTextFieldsWithLabels = (labelName: string, value: string) => {

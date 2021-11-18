@@ -44,7 +44,7 @@ const routes: RoutesProps[] = [
     component: PatientReports
   },
   {
-    path: '/profile',
+    path: '/profile/:userId',
     component: UserProfile
   },
   {

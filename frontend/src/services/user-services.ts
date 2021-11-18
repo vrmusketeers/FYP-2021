@@ -19,6 +19,14 @@ class UserService {
         return responseData as PatientList[];
     }
 
+
+    async getUserById(userId: string) {
+        let responseData: PatientList[] = [];
+        await axios.get(`${APIURL.ALL_USERS}/${userId}`).then((res: { data: PatientList[] }) => responseData = res.data);
+        console.log(responseData)
+        return responseData as PatientList[];
+    }
+
     // /** User Login */
     // async login(data: UserLogin) {
     //     let responseData: UserRegistrationResponse = {} as UserRegistrationResponse;
