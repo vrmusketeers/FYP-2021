@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Box,
   Card,
@@ -9,15 +9,14 @@ import {
   Typography
 } from '@material-ui/core';
 import { useParams } from "react-router-dom";
-import { useMountEffect } from '../../hooks/useMountEffect';
 import { appStore } from '../../../store/app-store';
 
 const ProfileDetails = () => {
   let { userId } = useParams<{ userId: string }>();
 
-  useMountEffect(()=>{
+  useEffect(() => {
     appStore.getUserById(userId);
-  });
+  }, [userId]);
 
   const renderTextFieldsWithLabels = (labelName: string, value: string) => {
     return (
@@ -67,7 +66,7 @@ const ProfileDetails = () => {
           {renderTextFieldsWithLabels('COUNTRY', appStore.userProfile.city)}
           {renderTextFieldsWithLabels('STATE', appStore.userProfile.state)}
           {renderTextFieldsWithLabels('AGE', appStore.userProfile.dateOfBirth)}
-          {renderTextFieldsWithLabels('LAST VISIT', appStore.userProfile.userID.toString())}
+          {renderTextFieldsWithLabels('LAST VISIT', appStore.userProfile.userID?.toString())}
         </Grid>
       </CardContent>
       <Divider />
