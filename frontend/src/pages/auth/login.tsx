@@ -8,11 +8,9 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
-import { appStore } from '../../store/app-store';
 
 const Login = () => {
   const history = useHistory();
-  const s = appStore.getPatientsList();
 
   return (
     <>

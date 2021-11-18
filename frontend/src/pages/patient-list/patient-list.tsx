@@ -1,7 +1,6 @@
 import { Avatar, Box, Card, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
-import React, { useState } from "react";
+import React from "react";
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { customers } from '../../_mock/customers';
 import SendIcon from '@material-ui/icons/Send';
 import { useHistory } from 'react-router-dom';
 import { appStore } from "../../store/app-store";
@@ -85,7 +84,7 @@ const PatientList: React.FC<PatientListProps> = observer(() => {
                                         {user.dateOfBirth}
                                     </TableCell>
                                     <TableCell>
-                                        <IconButton color="primary" aria-label="delete" onClick={() => history.push('/profile')}>
+                                        <IconButton color="primary" aria-label="delete" onClick={() => history.push('/profile/' + user.userID)}>
                                             <SendIcon />
                                         </IconButton>
                                     </TableCell>
