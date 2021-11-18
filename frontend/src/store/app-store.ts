@@ -1,4 +1,4 @@
-import { observable, action } from "mobx";
+import { observable, action, computed } from "mobx";
 import { userService } from "../services/user-services";
 
 class AppStore {
@@ -27,6 +27,11 @@ class AppStore {
     @action.bound
     async getPatientsList() {
         this.userList = await userService.registerExistingUser();
+    }
+
+    @computed
+    getUsersProfile() {
+        return this.userProfile;
     }
 
     /** Get User Profile by ID */

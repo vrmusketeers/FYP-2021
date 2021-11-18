@@ -59,9 +59,9 @@ const ProfileDetails = () => {
           container
           spacing={3}
         >
-          {renderTextFieldsWithLabels('FIRST NAME', appStore.userProfile.firstName)}
-          {renderTextFieldsWithLabels('LAST NAME', appStore.userProfile.lastName)}
-          {renderTextFieldsWithLabels('EMAIL', appStore.userProfile.email)}
+          {renderTextFieldsWithLabels('FIRST NAME', appStore.getUsersProfile().firstName)}
+          {renderTextFieldsWithLabels('LAST NAME', appStore.getUsersProfile().lastName)}
+          {renderTextFieldsWithLabels('EMAIL', appStore.getUsersProfile().email)}
           {renderTextFieldsWithLabels('PHONE', appStore.userProfile.phone)}
           {renderTextFieldsWithLabels('COUNTRY', appStore.userProfile.city)}
           {renderTextFieldsWithLabels('STATE', appStore.userProfile.state)}

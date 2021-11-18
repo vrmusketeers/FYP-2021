@@ -41,7 +41,14 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const ProfileSummary = () => {
+interface ProfileSummaryI {
+  firstName: string;
+  lastName: string;
+  city: string;
+  state: string;
+}
+
+const ProfileSummary = (props: ProfileSummaryI) => {
   const classes = useStyles();
   const history = useHistory();
   return (
@@ -60,13 +67,13 @@ const ProfileSummary = () => {
             gutterBottom
             variant="h4"
           >
-            {user.name}
+            {props.firstName}&nbsp;{props.lastName}
           </Typography>
           <Typography
             color="textSecondary"
             variant="body1"
           >
-            {`${user.city} ${user.country}`}
+            {`${props.city} ${props.state}`}
           </Typography>
         </Box>
       </CardContent>
@@ -76,10 +83,10 @@ const ProfileSummary = () => {
           color="primary"
           fullWidth
           variant="text"
-          onClick={()=>history.push('/dashboard')}
+          onClick={() => history.push('/dashboard')}
         >
           Visit Dashboard
-      </Button>
+        </Button>
       </CardActions>
     </Card>
   )
