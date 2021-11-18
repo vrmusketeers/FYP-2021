@@ -9,7 +9,7 @@ class AppStore {
     @observable appName: string = "Autism Detection";
     @observable isUserLoggedin: boolean = false;
     @observable userList = [] as PatientList[];
-    @observable userProfile = {};
+    @observable userProfile = {} as UserProfile;
 
     /** Login Service */
     @action.bound

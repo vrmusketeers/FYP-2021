@@ -21,10 +21,10 @@ class UserService {
 
 
     async getUserById(userId: string) {
-        let responseData: PatientList[] = [];
-        await axios.get(`${APIURL.ALL_USERS}/${userId}`).then((res: { data: PatientList[] }) => responseData = res.data);
+        let responseData: UserProfile = {} as UserProfile;
+        await axios.get(`${APIURL.GET_PROFILE_BY_ID}/${userId}`).then((res: { data: UserProfile }) => responseData = res.data);
         console.log(responseData)
-        return responseData as PatientList[];
+        return responseData as UserProfile;
     }
 
     // /** User Login */

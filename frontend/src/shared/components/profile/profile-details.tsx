@@ -13,17 +13,6 @@ import { useMountEffect } from '../../hooks/useMountEffect';
 import { appStore } from '../../../store/app-store';
 
 const ProfileDetails = () => {
-  const [values,] = useState({
-    firstName: 'Katarina',
-    lastName: 'Smith',
-    email: 'demo@devias.io',
-    phone: '+1-988-866-8975',
-    state: 'Alabama',
-    country: 'USA',
-    age: '32',
-    lastVisit: '09/12/2021'
-  });
-
   let { userId } = useParams<{ userId: string }>();
 
   useMountEffect(()=>{
@@ -71,14 +60,14 @@ const ProfileDetails = () => {
           container
           spacing={3}
         >
-          {renderTextFieldsWithLabels('FIRST NAME', values.firstName)}
-          {renderTextFieldsWithLabels('LAST NAME', values.lastName)}
-          {renderTextFieldsWithLabels('EMAIL', values.email)}
-          {renderTextFieldsWithLabels('PHONE', values.phone)}
-          {renderTextFieldsWithLabels('COUNTRY', values.country)}
-          {renderTextFieldsWithLabels('STATE', values.state)}
-          {renderTextFieldsWithLabels('AGE', values.age)}
-          {renderTextFieldsWithLabels('LAST VISIT', values.lastVisit)}
+          {renderTextFieldsWithLabels('FIRST NAME', appStore.userProfile.firstName)}
+          {renderTextFieldsWithLabels('LAST NAME', appStore.userProfile.lastName)}
+          {renderTextFieldsWithLabels('EMAIL', appStore.userProfile.email)}
+          {renderTextFieldsWithLabels('PHONE', appStore.userProfile.phone)}
+          {renderTextFieldsWithLabels('COUNTRY', appStore.userProfile.city)}
+          {renderTextFieldsWithLabels('STATE', appStore.userProfile.state)}
+          {renderTextFieldsWithLabels('AGE', appStore.userProfile.dateOfBirth)}
+          {renderTextFieldsWithLabels('LAST VISIT', appStore.userProfile.userID.toString())}
         </Grid>
       </CardContent>
       <Divider />
