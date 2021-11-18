@@ -13,10 +13,10 @@ class UserService {
 
     /** Get list of Users */
     async registerExistingUser() {
-        let responseData = '';
-        await axios.get(APIURL.ALL_USERS).then((res: { data: any; }) => responseData = res.data);
+        let responseData: PatientList[] = [];
+        await axios.get(APIURL.ALL_USERS).then((res: { data: PatientList[] }) => responseData = res.data);
         console.log(responseData)
-        return responseData as string;
+        return responseData as PatientList[];
     }
 
     // /** User Login */

@@ -2,9 +2,13 @@ import { observable, action } from "mobx";
 import { userService } from "../services/user-services";
 
 class AppStore {
+    constructor(){
+        this.getPatientsList();
+    }
 
     @observable appName: string = "Autism Detection";
     @observable isUserLoggedin: boolean = false;
+    @observable userList = [] as PatientList[];
 
     /** Login Service */
     @action.bound
@@ -21,7 +25,7 @@ class AppStore {
     /** Get list of patients */
     @action.bound
     async getPatientsList() {
-        return await userService.registerExistingUser();
+         this.userList = await userService.registerExistingUser();
     }
 
 }

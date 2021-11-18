@@ -4,14 +4,15 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import { customers } from '../../_mock/customers';
 import SendIcon from '@material-ui/icons/Send';
 import { useHistory } from 'react-router-dom';
+import { appStore } from "../../store/app-store";
+import { observer } from "mobx-react-lite";
 
 interface PatientListProps {
 
 }
 
-const PatientList: React.FC<PatientListProps> = () => {
+const PatientList: React.FC<PatientListProps> = observer(() => {
     const history = useHistory();
-
     const [limit] = useState(20);
     return (
         <Card>
@@ -43,10 +44,10 @@ const PatientList: React.FC<PatientListProps> = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {customers.slice(0, limit).map((customer) => (
+                            {appStore.userList.slice(0, limit).map((user) => (
                                 <TableRow
                                     hover
-                                    key={customer.id}
+                                    key={user.userID}
                                 >
                                     <TableCell padding="checkbox">
                                     </TableCell>
@@ -59,30 +60,30 @@ const PatientList: React.FC<PatientListProps> = () => {
                                         >
                                             <Avatar
                                                 style={{ marginRight: 20 }}
-                                                src={customer.avatarUrl}
+                                                src={''}
                                             >
 
-                                                &nbsp;&nbsp; {customer.name}
+                                                &nbsp;&nbsp; {user.firstName}
                                             </Avatar>
                                             <Typography
                                                 color="textPrimary"
                                                 variant="body1"
                                             >
-                                                {customer.name}
+                                                {user.firstName}
                                             </Typography>
                                         </Box>
                                     </TableCell>
                                     <TableCell>
-                                        {customer.email}
+                                        {user.email}
                                     </TableCell>
                                     <TableCell>
-                                        {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
+                                        {/* {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`} */}
                                     </TableCell>
                                     <TableCell>
-                                        {customer.phone}
+                                        {/* {customer.phone} */}
                                     </TableCell>
                                     <TableCell>
-                                        {customer.createdAt}
+                                        {/* {customer.createdAt} */}
                                     </TableCell>
                                     <TableCell>
                                         <IconButton color="primary" aria-label="delete" onClick={() => history.push('/profile')}>
@@ -98,7 +99,7 @@ const PatientList: React.FC<PatientListProps> = () => {
 
         </Card>
     );
-}
+});
 
 
 export default PatientList;
