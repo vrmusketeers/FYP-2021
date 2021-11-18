@@ -36,7 +36,7 @@ const PatientList: React.FC<PatientListProps> = observer(() => {
                                     Phone
                                 </TableCell>
                                 <TableCell>
-                                    Registration date
+                                    Date of Birth
                                 </TableCell>
                                 <TableCell>
                                     Visit Profile
@@ -77,13 +77,13 @@ const PatientList: React.FC<PatientListProps> = observer(() => {
                                         {user.email}
                                     </TableCell>
                                     <TableCell>
-                                        {/* {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`} */}
+                                        {user.city},{user.state}
                                     </TableCell>
                                     <TableCell>
-                                        {/* {customer.phone} */}
+                                        {user.phone}
                                     </TableCell>
                                     <TableCell>
-                                        {/* {customer.createdAt} */}
+                                        {user.dateOfBirth}
                                     </TableCell>
                                     <TableCell>
                                         <IconButton color="primary" aria-label="delete" onClick={() => history.push('/profile')}>
