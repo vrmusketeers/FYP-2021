@@ -1,4 +1,5 @@
 import { observable, action } from "mobx";
+import { userService } from "../services/user-services";
 
 class AppStore {
 
@@ -9,6 +10,18 @@ class AppStore {
     @action.bound
     login() {
         this.isUserLoggedin = true;
+    }
+
+    /** Logout Service */
+    @action.bound
+    logout() {
+        this.isUserLoggedin = false;
+    }
+
+    /** Get list of patients */
+    @action.bound
+    async getPatientsList() {
+        return await userService.registerExistingUser();
     }
 
 }
