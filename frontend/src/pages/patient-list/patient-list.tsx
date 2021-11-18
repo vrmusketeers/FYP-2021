@@ -13,7 +13,6 @@ interface PatientListProps {
 
 const PatientList: React.FC<PatientListProps> = observer(() => {
     const history = useHistory();
-    const [limit] = useState(20);
     return (
         <Card>
             <PerfectScrollbar>
@@ -44,7 +43,7 @@ const PatientList: React.FC<PatientListProps> = observer(() => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {appStore.userList.slice(0, limit).map((user) => (
+                            {appStore.userList.filter(user => user.userType === 'Patient').map((user) => (
                                 <TableRow
                                     hover
                                     key={user.userID}
