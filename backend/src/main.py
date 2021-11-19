@@ -208,11 +208,27 @@ def login():
                 return '<h1>Invalid Login</h1>'
 
 
-@app.route('/getPatients', methods=['GET'])
+""" @app.route('/getPatients', methods=['GET'])
 def get_patients():
 
     all_patients = User.query.filter(User.userType=='Patient').all()
     results = users_schema.dump(all_patients)
+    return jsonify(results) """
+
+@app.route('/getPatients', methods=['GET'])
+def get_patients():
+    cursor = db.session.execute("""
+        select patients.patientID, concat(user.firstName,' ',user.lastName) patientName, 
+        DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(dateOfBirth, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT(dateOfBirth, '00-%m-%d')) age, 
+        DATE_FORMAT(dateOfBirth, '%Y-%m-%d') dateOfBirth, email, phone, state, city, country,patients.processed, 
+        DATE_FORMAT(patients.lastVisitDate, '%Y-%m-%d') lastVisitDate,
+        tests.fileID MRNNo, tests.testDate
+        from  user left join patients on user.userID = patients.userID
+        left  join tests on patients.PatientID = tests.patientID
+        where   user.userType='Patient';
+    """)
+    results = [dict(patientId=row[0],patientName=row[1], age=row[2],dateOfBirth=row[3],email=row[4],phone=row[5],state=row[6],city=row[7],country=row[8],processed=row[9],lastVisitDate=row[10],MRNNo=row[11],testDate=row[12])
+               for row in cursor.fetchall()]
     return jsonify(results)
 
 @app.route('/getDoctors', methods=['GET'])
