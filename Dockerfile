@@ -8,6 +8,8 @@ ENV PYTHONUNBUFFERED True
 COPY . /backend/src
 WORKDIR /src
 
+RUN ls -la ./
+
 # Install Python Requirements
 RUN pip install -r requirements.txt
 
