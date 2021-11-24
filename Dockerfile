@@ -4,11 +4,11 @@ FROM python:3.9-slim
 ENV PYTHONUNBUFFERED True
 
 # Copy local code to the container image.
-COPY . /backend/src
-WORKDIR /backend/src
+COPY . ./backend/src
+WORKDIR ./backend/src
 
 # Install Python Requirements
-RUN pip install -r /backend/src/requirements.txt
+RUN pip install -r ./backend/src/requirements.txt
 
 # Run the web service on container startup. Here we use the gunicorn
 # webserver, with one worker process and 8 threads.
