@@ -3,13 +3,12 @@ FROM python:3.9-slim
 # Allow statements and log messages to immediately appear in the Knative logs
 ENV PYTHONUNBUFFERED True
 
-
 # Copy local code to the container image.
 COPY . /backend/src
 WORKDIR /backend/src
 
 # Install Python Requirements
-RUN pip install -r requirements.txt
+RUN pip install -r /backend/src/requirements.txt
 
 # Run the web service on container startup. Here we use the gunicorn
 # webserver, with one worker process and 8 threads.
