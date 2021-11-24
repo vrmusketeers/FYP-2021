@@ -6,9 +6,6 @@ ENV PYTHONUNBUFFERED True
 
 # Copy local code to the container image.
 COPY . /backend/src
-WORKDIR /src
-
-RUN ls -la ./
 
 # Install Python Requirements
 RUN pip install -r requirements.txt
