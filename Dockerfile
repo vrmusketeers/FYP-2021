@@ -8,6 +8,8 @@ COPY . ./backend/src
 WORKDIR ./backend/src
 
 RUN ls -la
+RUN cd ./backend/src
+RUN ls -la
 
 # Install Python Requirements
 RUN pip install -r ./backend/src/requirements.txt
