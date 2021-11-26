@@ -10,6 +10,7 @@ class AppStore {
     @observable isUserLoggedin: boolean = false;
     @observable userList = [] as PatientList[];
     @observable userProfile = {} as UserProfile;
+    @observable patientTestReports: any;
 
     /** Login Service */
     @action.bound
@@ -29,6 +30,15 @@ class AppStore {
         this.userList = await userService.registerExistingUser();
     }
 
+    @action.bound
+    async getPatientTestReports(userId: string){
+        this.patientTestReports = await userService.getPatientTestDetails(userId);
+    }
+
+    @action.bound
+    get patientList() {
+        return this.userList;
+    }
     @computed
     getUsersProfile() {
         return this.userProfile;

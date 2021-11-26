@@ -27,6 +27,15 @@ class UserService {
         return responseData as UserProfile;
     }
 
+
+
+    async getPatientTestDetails(userId: string) {
+        let responseData: UserProfile = {} as UserProfile;
+        await axios.get(`${APIURL.GET_TEST_PROFILE_BY_ID}${userId}`).then((res: { data: UserProfile }) => responseData = res.data);
+        console.log(responseData)
+        return responseData as any;
+    }
+
     // /** User Login */
     // async login(data: UserLogin) {
     //     let responseData: UserRegistrationResponse = {} as UserRegistrationResponse;

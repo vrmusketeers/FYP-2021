@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Box,
   Card,
@@ -13,10 +13,15 @@ import { appStore } from '../../../store/app-store';
 
 const ProfileDetails = () => {
   let { userId } = useParams<{ userId: string }>();
+  const [userProfile, setUserProfile] = useState({} as UserProfile);
+
+  const getUserProfileData = useCallback(async () => {
+    setUserProfile(await appStore.getUserById(userId) as unknown as UserProfile);
+  }, [userId])
 
   useEffect(() => {
-    appStore.getUserById(userId);
-  }, [userId]);
+    getUserProfileData()
+  }, [userId, getUserProfileData]);
 
   const renderTextFieldsWithLabels = (labelName: string, value: string) => {
     return (
@@ -62,11 +67,11 @@ const ProfileDetails = () => {
           {renderTextFieldsWithLabels('FIRST NAME', appStore.getUsersProfile().firstName)}
           {renderTextFieldsWithLabels('LAST NAME', appStore.getUsersProfile().lastName)}
           {renderTextFieldsWithLabels('EMAIL', appStore.getUsersProfile().email)}
-          {renderTextFieldsWithLabels('PHONE', appStore.userProfile.phone)}
-          {renderTextFieldsWithLabels('COUNTRY', appStore.userProfile.city)}
-          {renderTextFieldsWithLabels('STATE', appStore.userProfile.state)}
-          {renderTextFieldsWithLabels('AGE', appStore.userProfile.dateOfBirth)}
-          {renderTextFieldsWithLabels('LAST VISIT', appStore.userProfile.userID?.toString())}
+          {renderTextFieldsWithLabels('PHONE', appStore.getUsersProfile().phone)}
+          {renderTextFieldsWithLabels('COUNTRY', appStore.getUsersProfile().city)}
+          {renderTextFieldsWithLabels('STATE', appStore.getUsersProfile().state)}
+          {renderTextFieldsWithLabels('AGE', appStore.getUsersProfile().dateOfBirth)}
+          {renderTextFieldsWithLabels('LAST VISIT', appStore.getUsersProfile().userID?.toString())}
         </Grid>
       </CardContent>
       <Divider />

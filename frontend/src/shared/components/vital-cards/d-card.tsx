@@ -11,13 +11,13 @@ import {
   Typography
 } from '@material-ui/core';
 import { deepOrange, deepPurple, lightGreen, lightBlue } from '@material-ui/core/colors';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 interface DCardsProps {
   label: string;
   vitalValue: string;
   children: ReactElement;
   color: string;
+  date: string;
 }
 
 enum Color {
@@ -105,19 +105,11 @@ const DCard = (props: DCardsProps) => {
             alignItems: 'center'
           }}
         >
-          <ArrowDownwardIcon />
-          <Typography
-            color="textPrimary"
-            gutterBottom
-            variant="body2"
-          >
-            12%
-          </Typography>
           <Typography
             color="textSecondary"
             variant="caption"
           >
-            Since last month
+            Last Visit Date :  {props.date}
           </Typography>
         </Box>
       </CardContent>

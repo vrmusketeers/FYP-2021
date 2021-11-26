@@ -46,6 +46,7 @@ interface ProfileSummaryI {
   lastName: string;
   city: string;
   state: string;
+  userId: string;
 }
 
 const ProfileSummary = (props: ProfileSummaryI) => {
@@ -83,7 +84,7 @@ const ProfileSummary = (props: ProfileSummaryI) => {
           color="primary"
           fullWidth
           variant="text"
-          onClick={() => history.push('/dashboard')}
+          onClick={() => history.push('/dashboard/'+props.userId)}
         >
           Visit Dashboard
         </Button>

@@ -32,7 +32,7 @@ const routes: RoutesProps[] = [
     path: '/signup',
     component: Signup
   }, {
-    path: '/dashboard',
+    path: '/dashboard/:userId',
     component: Dashboard
   },
   {
@@ -63,7 +63,6 @@ const routes: RoutesProps[] = [
 
 const App = observer(() => {
   const [isLoggedIn,] = useState(true);
-  const title = appStore.appName;
   const x = useCallback(async () => {
     await fetch("/api/getPatientTestDetails?patientId=2")
       .then(res => res.json())
@@ -88,7 +87,6 @@ const App = observer(() => {
             })}
           </Container>
         </MasterLayout>}
-        {title}
         {!isLoggedIn && <Route exact path="/login" component={Login} />}
       </BrowserRouter>
     </div>

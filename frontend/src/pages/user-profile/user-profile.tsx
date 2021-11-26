@@ -1,6 +1,8 @@
 import { Box, Container, Grid } from "@material-ui/core";
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import ProfileDetails from "../../shared/components/profile/profile-details";
+import ResultCard from "../../shared/components/profile/result-card";
 import ProfileSummary from "../../shared/components/profile/summary-card";
 import { appStore } from "../../store/app-store";
 
@@ -9,6 +11,16 @@ interface UserProfileProps {
 }
 
 const UserProfile: React.FC<UserProfileProps> = () => {
+  let { userId } = useParams<{ userId: string }>();
+  const [userProfile, setUserProfile] = useState({} as UserProfile);
+
+  const getUserProfileData = useCallback(async () => {
+    setUserProfile(await appStore.getUserById(userId) as unknown as UserProfile);
+  }, [userId])
+
+  useEffect(() => {
+    getUserProfileData()
+  }, [userId, getUserProfileData]);
   return (
     <Box
       sx={{
@@ -28,10 +40,13 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             xs={12}
           >
             <ProfileSummary
-              firstName={appStore.userProfile.firstName}
-              lastName={appStore.userProfile.lastName}
-              city={appStore.userProfile.city}
-              state={appStore.userProfile.state} />
+              firstName={appStore.getUsersProfile().firstName}
+              lastName={appStore.getUsersProfile().lastName}
+              city={appStore.getUsersProfile().city}
+              state={appStore.getUsersProfile().state}
+              userId={userId} />
+            <br />
+            <ResultCard></ResultCard>
           </Grid>
           <Grid
             item

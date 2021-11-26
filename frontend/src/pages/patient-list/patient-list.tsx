@@ -1,5 +1,5 @@
 import { Avatar, Box, Card, IconButton, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import SendIcon from '@material-ui/icons/Send';
 import { useHistory } from 'react-router-dom';
@@ -12,6 +12,12 @@ interface PatientListProps {
 
 const PatientList: React.FC<PatientListProps> = observer(() => {
     const history = useHistory();
+    const [userList, setUserList] = useState([] as PatientList[])
+
+    useEffect(() => {
+        setUserList(appStore.patientList as PatientList[]);
+    }, []);
+
     return (
         <Card>
             <PerfectScrollbar>
@@ -42,7 +48,7 @@ const PatientList: React.FC<PatientListProps> = observer(() => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {appStore.userList.filter(user => user.userType === 'Patient').map((user) => (
+                            {userList.length>0 && userList.filter(user => user.userType === 'Patient').map((user) => (
                                 <TableRow
                                     hover
                                     key={user.userID}
