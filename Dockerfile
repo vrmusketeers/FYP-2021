@@ -7,7 +7,7 @@ ENV PYTHONUNBUFFERED True
 COPY . ./backend/src
 WORKDIR ./backend/src
 
-RUN dir
+RUN ls -la
 
 # Install Python Requirements
 RUN pip install -r ./backend/src/requirements.txt
