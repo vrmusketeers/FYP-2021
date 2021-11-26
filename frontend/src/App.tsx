@@ -63,30 +63,18 @@ const routes: RoutesProps[] = [
 
 const App = observer(() => {
   const [isLoggedIn,] = useState(true);
-  const x = useCallback(async () => {
-    await fetch("/api/getPatientTestDetails?patientId=2")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          console.log('This is the result');
-          console.log(result);
-        }
-      )
-      return <h1>Hello World</h1>
-  }, []);
-
-  x();
   return (
     <div style={{ 'width': '100%' }}>
       <BrowserRouter>
         <CssBaseline />
-        {isLoggedIn && <MasterLayout>
+        {isLoggedIn && <MasterLayout isLoggedIn={appStore.isUserLoggedin}>
           <Container maxWidth='lg'>
             {routes.map((route, i) => {
               return <Route exact path={route.path} key={i} component={route.component} />
             })}
           </Container>
-        </MasterLayout>}
+        </MasterLayout>
+        }
         {!isLoggedIn && <Route exact path="/login" component={Login} />}
       </BrowserRouter>
     </div>

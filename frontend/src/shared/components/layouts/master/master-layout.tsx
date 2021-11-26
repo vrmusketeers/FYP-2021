@@ -122,7 +122,7 @@ export default function MasterLayout(props: any) {
                             [classes.hide]: open,
                         })}
                     >
-                        <MenuIcon />
+                        {props.isLoggedIn && <MenuIcon />}
                     </IconButton>
                     <Typography variant="h6" noWrap>
                         {appStore.appName}

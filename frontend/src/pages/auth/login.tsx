@@ -8,6 +8,7 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
+import { appStore } from '../../store/app-store';
 
 const Login = () => {
   const history = useHistory();
@@ -78,7 +79,10 @@ const Login = () => {
                 color="primary"
                 fullWidth
                 size="large"
-                onClick={()=>{history.push('/patient-list')}}
+                onClick={()=>{{
+                  appStore.login();
+                  history.push('/patient-list')
+                }}}
                 variant="contained"
               >
                 Sign in now

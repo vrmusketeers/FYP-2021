@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, CardHeader, Container, Divider, Grid } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import DCard from "../../shared/components/vital-cards/d-card";
 
 import GroupIcon from '@material-ui/icons/Group';
@@ -14,10 +14,15 @@ interface DashboardProps {
 
 const Dashboard: React.FC<DashboardProps> = observer(() => {
     let { userId } = useParams<{ userId: string }>();
+    const [testResults, setTestResults] = useState([] as any);
+
+    const getPatientWithTestReports = useCallback(async ()=>{
+        setTestResults(await appStore.getPatientTestReports(userId));
+    },[userId]);
 
     useEffect(() => {
-        appStore.getPatientTestReports(userId)
-    }, [userId]);
+        getPatientWithTestReports();
+    }, [getPatientWithTestReports]);
 
     const renderDCard = (label: string, vitalValue: string, color: string) => {
         return (

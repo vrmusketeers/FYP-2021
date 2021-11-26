@@ -31,7 +31,7 @@ class AppStore {
     }
 
     @action.bound
-    async getPatientTestReports(userId: string){
+    async getPatientTestReports(userId: string) {
         this.patientTestReports = await userService.getPatientTestDetails(userId);
     }
 
