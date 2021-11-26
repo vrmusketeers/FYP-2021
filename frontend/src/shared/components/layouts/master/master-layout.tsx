@@ -21,6 +21,7 @@ import ListAltIcon from '@material-ui/icons/ListAlt';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { useHistory } from 'react-router-dom';
 import { appStore } from "./../../../../store/app-store";
+import { observer } from 'mobx-react-lite';
 
 const drawerWidth = 240;
 
@@ -89,7 +90,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-export default function MasterLayout(props: any) {
+const MasterLayout = observer((props: any) => {
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
@@ -122,7 +123,7 @@ export default function MasterLayout(props: any) {
                             [classes.hide]: open,
                         })}
                     >
-                        {props.isLoggedIn && <MenuIcon />}
+                        <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap>
                         {appStore.appName}
@@ -149,11 +150,11 @@ export default function MasterLayout(props: any) {
                 </div>
                 <Divider />
                 <List>
-                    <ListItem button onClick={()=>history.push('/patient-list')}>
+                    <ListItem button onClick={() => history.push('/patient-list')}>
                         <ListItemIcon><ListAltIcon /></ListItemIcon>
                         <ListItemText primary={'Dashboard'} />
                     </ListItem>
-                    <ListItem button onClick={()=>history.push('/assigned-task')}>
+                    <ListItem button onClick={() => history.push('/assigned-task')}>
                         <ListItemIcon><AssignmentIcon /></ListItemIcon>
                         <ListItemText primary={'Assigned Task'} />
                     </ListItem>
@@ -174,4 +175,6 @@ export default function MasterLayout(props: any) {
             </main>
         </div>
     );
-}
+});
+
+export default MasterLayout;
