@@ -42,11 +42,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface ProfileSummaryI {
-  firstName: string;
-  lastName: string;
+  fullName: string;
   city: string;
   state: string;
   userId: string;
+  testResults: string;
 }
 
 const ProfileSummary = (props: ProfileSummaryI) => {
@@ -68,7 +68,7 @@ const ProfileSummary = (props: ProfileSummaryI) => {
             gutterBottom
             variant="h4"
           >
-            {props.firstName}&nbsp;{props.lastName}
+            {props.fullName}
           </Typography>
           <Typography
             color="textSecondary"
@@ -84,7 +84,7 @@ const ProfileSummary = (props: ProfileSummaryI) => {
           color="primary"
           fullWidth
           variant="text"
-          onClick={() => history.push('/dashboard/'+props.userId)}
+          onClick={() => history.push('/dashboard/' + props.userId)}
         >
           Visit Dashboard
         </Button>
