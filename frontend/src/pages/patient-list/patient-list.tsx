@@ -48,10 +48,10 @@ const PatientList: React.FC<PatientListProps> = observer(() => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {userList.length>0 && userList.filter(user => user.userType === 'Patient').map((user) => (
+                            {userList.length>0 && userList.filter(user => user.processed === 1).map((user) => (
                                 <TableRow
                                     hover
-                                    key={user.userID}
+                                    key={user.MRNNo}
                                 >
                                     <TableCell padding="checkbox">
                                     </TableCell>
@@ -67,13 +67,13 @@ const PatientList: React.FC<PatientListProps> = observer(() => {
                                                 src={''}
                                             >
 
-                                                &nbsp;&nbsp; {user.firstName}
+                                                &nbsp;&nbsp; {user.patientName}
                                             </Avatar>
                                             <Typography
                                                 color="textPrimary"
                                                 variant="body1"
                                             >
-                                                {user.firstName}
+                                                {user.patientName}
                                             </Typography>
                                         </Box>
                                     </TableCell>
@@ -90,7 +90,7 @@ const PatientList: React.FC<PatientListProps> = observer(() => {
                                         {user.dateOfBirth}
                                     </TableCell>
                                     <TableCell>
-                                        <IconButton color="primary" aria-label="delete" onClick={() => history.push('/profile/' + user.userID)}>
+                                        <IconButton color="primary" aria-label="delete" onClick={() => history.push('/profile/' + user.patientId)}>
                                             <SendIcon />
                                         </IconButton>
                                     </TableCell>
