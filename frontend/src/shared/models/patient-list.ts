@@ -12,5 +12,5 @@ interface PatientList {
     processed: number;
     state: string;
     testDate: string;
-    testresults: string;
+    testresult: string;
 }

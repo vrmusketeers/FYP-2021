@@ -44,9 +44,9 @@ const UserProfile: React.FC<UserProfileProps> = () => {
               city={appStore.getUsersProfile().city}
               state={appStore.getUsersProfile().state}
               userId={userId}
-              testResults={appStore.getUsersProfile().testresults} />
+              testResults={appStore.getUsersProfile().testresult} />
             <br />
-            <ResultCard result={appStore.getUsersProfile().testresults}></ResultCard>
+            <ResultCard result={appStore.getUsersProfile().testresult}></ResultCard>
           </Grid>
           <Grid
             item

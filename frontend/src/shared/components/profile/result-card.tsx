@@ -30,8 +30,7 @@ const ResultCard = (props: ResultCardI) => {
                     </Typography>
                     <Typography
                         color="textSecondary"
-                        variant="body1"
-                    >
+                        variant="body1">
                         {props.result && props.result === '0' ? 'NEGATIVE' : 'POSITIVE'}
                     </Typography>
                 </Box>
