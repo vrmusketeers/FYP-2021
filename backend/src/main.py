@@ -21,6 +21,9 @@ from flask_marshmallow import Marshmallow
 from flask_cors import CORS #comment this on deployment
 import datetime
 import json
+import requests
+import base64
+import numpy as np
 from datetime import datetime
 import os
 
@@ -220,14 +223,14 @@ def get_patients():
     cursor = db.session.execute("""
         select patients.patientID, concat(user.firstName,' ',user.lastName) patientName, 
         DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(dateOfBirth, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT(dateOfBirth, '00-%m-%d')) age, 
-        DATE_FORMAT(dateOfBirth, '%Y-%m-%d') dateOfBirth, email, phone, state, city, country,patients.processed, 
+        DATE_FORMAT(dateOfBirth, '%Y-%m-%d') dateOfBirth, email, phone, state, city, country,patients.processed, tests.testResults,
         DATE_FORMAT(patients.lastVisitDate, '%Y-%m-%d') lastVisitDate,
         tests.fileID MRNNo, tests.testDate
         from  user left join patients on user.userID = patients.userID
         left  join tests on patients.PatientID = tests.patientID
         where   user.userType='Patient';
     """)
-    results = [dict(patientId=row[0],patientName=row[1], age=row[2],dateOfBirth=row[3],email=row[4],phone=row[5],state=row[6],city=row[7],country=row[8],processed=row[9],lastVisitDate=row[10],MRNNo=row[11],testDate=row[12])
+    results = [dict(patientId=row[0],patientName=row[1], age=row[2],dateOfBirth=row[3],email=row[4],phone=row[5],state=row[6],city=row[7],country=row[8],processed=row[9],testresults=row[10],lastVisitDate=row[11],MRNNo=row[12],testDate=row[13])
                for row in cursor.fetchall()]
     return jsonify(results)
 
@@ -267,7 +270,7 @@ def getPatientTestDetails():
     #reqPatientID=request.json['patientId']
     reqPatientID=request.args.get('patientId')
     cursor = db.session.execute("""
-        select patients.patientID,  concat(user.firstName,' ',user.lastName) patientName, patients.processed, DATE_FORMAT(patients.lastVisitDate, '%Y-%m-%d') lastVisitDate, tests.fileID MRNNo,pv.*
+        select patients.patientID,  concat(user.firstName,' ',user.lastName) patientName, patients.processed,tests.testResults, DATE_FORMAT(patients.lastVisitDate, '%Y-%m-%d') lastVisitDate, tests.fileID MRNNo,pv.*
         from user,patients, tests, phenotypic_values pv
         where user.userID = patients.userID and patients.patientID=tests.patientID and tests.fileID=pv.file_id
         and user.userType='Patient' and patients.patientID=:param;
@@ -330,10 +333,11 @@ def getPatientsProfile():
     #reqPatientID=request.json['patientId']
     patientId=request.args.get('patientId')
     cursor = db.session.execute("""
-        select patients.patientID,  concat(user.firstName,' ',user.lastName) patientName, DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(dateOfBirth, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT(dateOfBirth, '00-%m-%d')) age, email, phone, state, city, country,patients.processed, DATE_FORMAT(patients.lastVisitDate, '%Y-%m-%d') lastVisitDate
+        select patients.patientID,  concat(user.firstName,' ',user.lastName) patientName, DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(dateOfBirth, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT(dateOfBirth, '00-%m-%d')) age, email, phone, state, city, country,patients.processed, DATE_FORMAT(patients.lastVisitDate, '%Y-%m-%d') lastVisitDate,
+        (select testResults from tests where tests.patientID = patients.PatientID) test_results
         from user,patients where user.userID = patients.userID and user.userType='Patient' and patients.patientID=:param;
     """,{"param":patientId})
-    results = [dict(patientId=row[0],patientName=row[1], age=row[2],email=row[3],phone=row[4],state=row[5],city=row[6],country=row[7],processed=row[8],lastVisitDate=row[9])
+    results = [dict(patientId=row[0],patientName=row[1], age=row[2],email=row[3],phone=row[4],state=row[5],city=row[6],country=row[7],processed=row[8],lastVisitDate=row[9],testresult=row[10])
                for row in cursor.fetchall()]
 
     return jsonify(results)
@@ -349,6 +353,45 @@ def getAllPatientTestDetails():
                for row in cursor.fetchall()]
 
     return jsonify(results)
+
+@app.route('/processfmri', methods=['POST'])
+def processfmri():
+    patientId=request.json['patientId']
+
+    cursor = db.session.execute("""
+        select  tests.niifile from user, tests where user.userId = tests.patientID and user.userType='Patient' and tests.patientID=:param;
+    """,{"param":patientId})
+
+    data2 = cursor.fetchone()[0]
+
+    file_name=data2+'.nii.gz'
+    #file_name='Pitt_0050008_func_preproc.nii.gz'
+    print(file_name)
+    nii_file = {'nii_file':file_name}
+    API_ENDPOINT = "https://bidlstm-o-yjmgrhmjwq-uc.a.run.app/predict"
+    r = requests.post(url = API_ENDPOINT, json = nii_file)
+    y_preds = json.loads(r.text.replace("\n",""))['predictions'][0]
+    conval = np.mean(y_preds[0]) > 0.5 
+    if y_preds[0] >.57 :
+        diag_class = 1.0 
+    else :
+        diag_class = 0.0
+
+    cursor1 = db.session.execute ("""
+        UPDATE musketeerdb.patients
+        SET processed = '1'
+        WHERE PatientID =:param1;
+    """,{"param1":patientId})
+
+    cursor2 = db.session.execute ("""
+        UPDATE musketeerdb.tests
+        SET testResults =:param2
+        WHERE patientID =:param3; 
+    """,{"param2":diag_class,"param3":patientId})
+
+    db.session.commit()
+    return jsonify(diag_class)
+
 
 @app.route("/", defaults={'path':''})
 @app.route('/<path:path>')
