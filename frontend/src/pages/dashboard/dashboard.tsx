@@ -41,14 +41,14 @@ const Dashboard: React.FC<DashboardProps> = observer(() => {
     }
 
     const getHTMLURL = useMemo(() => {
-        if (appStore.patientTestReports && appStore.patientTestReports.length > 0) {
+        if (appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0].length > 0) {
             return 'https://storage.googleapis.com/musketeer-test-mrn/' + appStore.patientTestReports[0][0]['MRNNo'] + '_func_preproc.html'
         }
         return;
     }, [appStore.patientTestReports])
 
     const getImageURL = useMemo(() => {
-        if (appStore.patientTestReports && appStore.patientTestReports.length > 0) {
+        if (appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0].length > 0) {
             return 'https://storage.googleapis.com/musketeer-test-mrn/' + appStore.patientTestReports[0][0]['MRNNo'] + '_func_preproc.png'
         }
         return;
@@ -63,18 +63,18 @@ const Dashboard: React.FC<DashboardProps> = observer(() => {
                 }}
             >
                 <Container maxWidth={false}>
-                    <Grid
+                    {appStore.patientTestReports && appStore.patientTestReports[0].length > 0 && appStore.patientTestReports.length > 0 && (<Grid
                         container
                         spacing={3}
                     >
-                        {renderDCard("SOCIAL TOTAL A", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['ADI_R_SOCIAL_TOTAL_A'], "blue")}
-                        {renderDCard("VERBAL TOTAL BV", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['ADI_R_VERBAL_TOTAL_BV'], "green")}
-                        {renderDCard("RBR TOTAL C", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['ADI_RRB_TOTAL_C'], "purple")}
-                        {renderDCard("ONSET TOTAL D", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['ADI_R_ONSET_TOTAL_D'], "orange")}
-                        {renderDCard("AGE AT SCAN", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['AGE_AT_SCAN'], "blue")}
-                        {renderDCard("F IQ", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['FIQ'], "green")}
-                        {renderDCard("P IQ", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['PIQ'], "purple")}
-                        {renderDCard("ADOS SOCIAL", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['ADOS_SOCIAL'], "orange")}
+                        {renderDCard("SOCIAL TOTAL A", appStore.patientTestReports[0][0]['ADI_R_SOCIAL_TOTAL_A'], "blue")}
+                        {renderDCard("VERBAL TOTAL BV", appStore.patientTestReports[0][0]['ADI_R_VERBAL_TOTAL_BV'], "green")}
+                        {renderDCard("RBR TOTAL C", appStore.patientTestReports[0][0]['ADI_RRB_TOTAL_C'], "purple")}
+                        {renderDCard("ONSET TOTAL D", appStore.patientTestReports[0][0]['ADI_R_ONSET_TOTAL_D'], "orange")}
+                        {renderDCard("AGE AT SCAN", appStore.patientTestReports[0][0]['AGE_AT_SCAN'], "blue")}
+                        {renderDCard("F IQ", appStore.patientTestReports[0][0]['FIQ'], "green")}
+                        {renderDCard("P IQ", appStore.patientTestReports[0][0]['PIQ'], "purple")}
+                        {renderDCard("ADOS SOCIAL", appStore.patientTestReports[0][0]['ADOS_SOCIAL'], "orange")}
                         <Grid
                             item
                             lg={8}
@@ -110,7 +110,7 @@ const Dashboard: React.FC<DashboardProps> = observer(() => {
                             </Card>
 
                         </Grid>
-                    </Grid>
+                    </Grid>)}
                 </Container>
             </Box>
         </React.Fragment >

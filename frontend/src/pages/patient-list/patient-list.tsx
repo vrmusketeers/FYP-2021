@@ -19,89 +19,95 @@ const PatientList: React.FC<PatientListProps> = observer(() => {
     }, []);
 
     return (
-        <Card>
-            <PerfectScrollbar>
-                <Box sx={{ minWidth: 1050 }}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell padding="checkbox">
-                                </TableCell>
-                                <TableCell>
-                                    Name
-                                </TableCell>
-                                <TableCell>
-                                    Email
-                                </TableCell>
-                                <TableCell>
-                                    Location
-                                </TableCell>
-                                <TableCell>
-                                    Phone
-                                </TableCell>
-                                <TableCell>
-                                    Date of Birth
-                                </TableCell>
-                                <TableCell>
-                                    Visit Profile
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {userList.length>0 && userList.filter(user => user.processed === 1).map((user) => (
-                                <TableRow
-                                    hover
-                                    key={user.MRNNo}
-                                >
+        <>
+            <Typography align="left" variant="h5">
+                PROCESSED PATIENTS RECORDS
+            </Typography>
+            <br />
+            <Card>
+                <PerfectScrollbar>
+                    <Box sx={{ minWidth: 1050 }}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
                                     <TableCell padding="checkbox">
                                     </TableCell>
                                     <TableCell>
-                                        <Box
-                                            sx={{
-                                                alignItems: 'center',
-                                                display: 'flex'
-                                            }}
-                                        >
-                                            <Avatar
-                                                style={{ marginRight: 20 }}
-                                                src={''}
-                                            >
-
-                                                &nbsp;&nbsp; {user.patientName}
-                                            </Avatar>
-                                            <Typography
-                                                color="textPrimary"
-                                                variant="body1"
-                                            >
-                                                {user.patientName}
-                                            </Typography>
-                                        </Box>
+                                        Name
                                     </TableCell>
                                     <TableCell>
-                                        {user.email}
+                                        Email
                                     </TableCell>
                                     <TableCell>
-                                        {user.city},{user.state}
+                                        Location
                                     </TableCell>
                                     <TableCell>
-                                        {user.phone}
+                                        Phone
                                     </TableCell>
                                     <TableCell>
-                                        {user.dateOfBirth}
+                                        Date of Birth
                                     </TableCell>
                                     <TableCell>
-                                        <IconButton color="primary" aria-label="delete" onClick={() => history.push('/profile/' + user.patientId)}>
-                                            <SendIcon />
-                                        </IconButton>
+                                        Visit Profile
                                     </TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </Box>
-            </PerfectScrollbar>
+                            </TableHead>
+                            <TableBody>
+                                {userList.length > 0 && userList.filter(user => user.processed === 1).map((user) => (
+                                    <TableRow
+                                        hover
+                                        key={user.MRNNo}
+                                    >
+                                        <TableCell padding="checkbox">
+                                        </TableCell>
+                                        <TableCell>
+                                            <Box
+                                                sx={{
+                                                    alignItems: 'center',
+                                                    display: 'flex'
+                                                }}
+                                            >
+                                                <Avatar
+                                                    style={{ marginRight: 20 }}
+                                                    src={'/static/images/avatars/avatar_' + Math.floor(Math.random() * 10) + '.png'}
+                                                >
 
-        </Card>
+                                                    &nbsp;&nbsp; {user.patientName}
+                                                </Avatar>
+                                                <Typography
+                                                    color="textPrimary"
+                                                    variant="body1"
+                                                >
+                                                    {user.patientName}
+                                                </Typography>
+                                            </Box>
+                                        </TableCell>
+                                        <TableCell>
+                                            {user.email}
+                                        </TableCell>
+                                        <TableCell>
+                                            {user.city},{user.state}
+                                        </TableCell>
+                                        <TableCell>
+                                            {user.phone}
+                                        </TableCell>
+                                        <TableCell>
+                                            {user.dateOfBirth}
+                                        </TableCell>
+                                        <TableCell>
+                                            <IconButton color="primary" aria-label="delete" onClick={() => history.push('/profile/' + user.patientId)}>
+                                                <SendIcon />
+                                            </IconButton>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Box>
+                </PerfectScrollbar>
+
+            </Card>
+        </>
     );
 });
 
