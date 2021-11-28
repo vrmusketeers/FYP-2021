@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, CardHeader, Container, Divider, Grid } from "@material-ui/core";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import DCard from "../../shared/components/vital-cards/d-card";
 
 import GroupIcon from '@material-ui/icons/Group';
@@ -16,9 +16,9 @@ const Dashboard: React.FC<DashboardProps> = observer(() => {
     let { userId } = useParams<{ userId: string }>();
     const [testResults, setTestResults] = useState([] as any);
 
-    const getPatientWithTestReports = useCallback(async ()=>{
+    const getPatientWithTestReports = useCallback(async () => {
         setTestResults(await appStore.getPatientTestReports(userId));
-    },[userId]);
+    }, [userId]);
 
     useEffect(() => {
         getPatientWithTestReports();
@@ -33,12 +33,26 @@ const Dashboard: React.FC<DashboardProps> = observer(() => {
                 xl={3}
                 xs={12}
             >
-                <DCard label={label} vitalValue={vitalValue} color={color} date={appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['lastVisitDate']}> 
+                <DCard label={label} vitalValue={vitalValue} color={color} date={appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['lastVisitDate']}>
                     <GroupIcon />
                 </DCard>
             </Grid>
         );
     }
+
+    const getHTMLURL = useMemo(() => {
+        if (appStore.patientTestReports && appStore.patientTestReports.length > 0) {
+            return 'https://storage.googleapis.com/musketeer-test-mrn/' + appStore.patientTestReports[0][0]['MRNNo'] + '_func_preproc.html'
+        }
+        return;
+    }, [appStore.patientTestReports])
+
+    const getImageURL = useMemo(() => {
+        if (appStore.patientTestReports && appStore.patientTestReports.length > 0) {
+            return 'https://storage.googleapis.com/musketeer-test-mrn/' + appStore.patientTestReports[0][0]['MRNNo'] + '_func_preproc.png'
+        }
+        return;
+    }, [appStore.patientTestReports])
 
     return (
         <React.Fragment>
@@ -53,14 +67,14 @@ const Dashboard: React.FC<DashboardProps> = observer(() => {
                         container
                         spacing={3}
                     >
-                        {renderDCard("SOCIAL TOTAL A",  appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['ADI_R_SOCIAL_TOTAL_A'], "blue")}
-                        {renderDCard("VERBAL TOTAL BV",  appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['ADI_R_VERBAL_TOTAL_BV'], "green")}
-                        {renderDCard("RBR TOTAL C",  appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['ADI_RRB_TOTAL_C'], "purple")}
-                        {renderDCard("ONSET TOTAL D",  appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['ADI_R_ONSET_TOTAL_D'], "orange")}
-                        {renderDCard("AGE AT SCAN",  appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['AGE_AT_SCAN'], "blue")}
-                        {renderDCard("F IQ",  appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['FIQ'], "green")}
-                        {renderDCard("P IQ",  appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['PIQ'], "purple")}
-                        {renderDCard("ADOS SOCIAL",  appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['ADOS_SOCIAL'], "orange")}
+                        {renderDCard("SOCIAL TOTAL A", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['ADI_R_SOCIAL_TOTAL_A'], "blue")}
+                        {renderDCard("VERBAL TOTAL BV", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['ADI_R_VERBAL_TOTAL_BV'], "green")}
+                        {renderDCard("RBR TOTAL C", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['ADI_RRB_TOTAL_C'], "purple")}
+                        {renderDCard("ONSET TOTAL D", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['ADI_R_ONSET_TOTAL_D'], "orange")}
+                        {renderDCard("AGE AT SCAN", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['AGE_AT_SCAN'], "blue")}
+                        {renderDCard("F IQ", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['FIQ'], "green")}
+                        {renderDCard("P IQ", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['PIQ'], "purple")}
+                        {renderDCard("ADOS SOCIAL", appStore.patientTestReports && appStore.patientTestReports.length > 0 && appStore.patientTestReports[0][0]['ADOS_SOCIAL'], "orange")}
                         <Grid
                             item
                             lg={8}
@@ -68,7 +82,7 @@ const Dashboard: React.FC<DashboardProps> = observer(() => {
                             xl={9}
                             xs={12}
                         >
-                            <DGraphContainer />
+                            <DGraphContainer htmlURL={getHTMLURL as string} />
                         </Grid>
                         <Grid
                             item
@@ -90,7 +104,7 @@ const Dashboard: React.FC<DashboardProps> = observer(() => {
                                             padding: 0
                                         }}
                                     >
-                                        <img alt="Voxel Images" style={{ height: '100%', width: '100%' }} src='./static/images/carpet_plot.png'></img>
+                                        <img alt="Voxel Images" style={{ height: '100%', width: '100%' }} src={getImageURL}></img>
                                     </Box>
                                 </CardContent>
                             </Card>
