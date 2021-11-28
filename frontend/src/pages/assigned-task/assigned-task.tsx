@@ -18,84 +18,92 @@ const AssignedTask: React.FC<AssignedTaskProps> = () => {
     }, []);
 
     return (
-        <Card>
-            <PerfectScrollbar>
-                <Box sx={{ minWidth: 1050 }}>
-                    <Table stickyHeader>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell padding="checkbox">
-                                </TableCell>
-                                <TableCell>
-                                    Name
-                                </TableCell>
-                                <TableCell>
-                                    Age
-                                </TableCell>
-                                <TableCell>
-                                    MRN No.
-                                </TableCell>
-                                <TableCell>
-                                    Registration date
-                                </TableCell>
-                                <TableCell>
-                                    Run Analysis
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-
-                            {userList.length > 0 && userList.filter(user => user.processed === 0).map((user) => (
-                                <TableRow
-                                    hover
-                                    key={user.MRNNo}
-                                >
+        <>
+            <Typography align="left" variant="h5">
+                UNPROCESSED PATIENTS RECORDS
+            </Typography>
+            <br />
+            <Card>
+                <PerfectScrollbar>
+                    <Box sx={{ minWidth: 1050 }}>
+                        <Table stickyHeader>
+                            <TableHead>
+                                <TableRow>
                                     <TableCell padding="checkbox">
                                     </TableCell>
                                     <TableCell>
-                                        <Box
-                                            sx={{
-                                                alignItems: 'center',
-                                                display: 'flex'
-                                            }}
-                                        >
-                                            <Avatar
-                                                style={{ marginRight: 20 }}
-                                            >
-
-                                                &nbsp;&nbsp; {user.patientName}
-                                            </Avatar>
-                                            <Typography
-                                                color="textPrimary"
-                                                variant="body1"
-                                            >
-                                                {user.patientName}
-                                            </Typography>
-                                        </Box>
+                                        Name
                                     </TableCell>
                                     <TableCell>
-                                        {user.age}
+                                        Age
                                     </TableCell>
                                     <TableCell>
-                                        {user.phone}
+                                        MRN No.
                                     </TableCell>
                                     <TableCell>
-                                        {user.lastVisitDate}
+                                        Registration date
                                     </TableCell>
                                     <TableCell>
-                                        <Button variant="contained"
-                                            color="primary" startIcon={<AutorenewIcon />}>
-                                            Process FMRI
-                                        </Button>
+                                        Run Analysis
                                     </TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </Box>
-            </PerfectScrollbar>
+                            </TableHead>
+                            <TableBody>
 
-        </Card>
+                                {userList.length > 0 && userList.filter(user => user.processed === 0).map((user) => (
+                                    <TableRow
+                                        hover
+                                        key={user.MRNNo}
+                                    >
+                                        <TableCell padding="checkbox">
+                                        </TableCell>
+                                        <TableCell>
+                                            <Box
+                                                sx={{
+                                                    alignItems: 'center',
+                                                    display: 'flex'
+                                                }}
+                                            >
+                                                <Avatar
+                                                    style={{ marginRight: 20 }}
+                                                    src={'/static/images/avatars/avatar_' + Math.floor(Math.random() * 10) + '.png'}
+                                                >
+
+                                                    &nbsp;&nbsp; {user.patientName}
+                                                </Avatar>
+                                                <Typography
+                                                    color="textPrimary"
+                                                    variant="body1"
+                                                >
+                                                    {user.patientName}
+                                                </Typography>
+                                            </Box>
+                                        </TableCell>
+                                        <TableCell>
+                                            {user.age}
+                                        </TableCell>
+                                        <TableCell>
+                                            {user.phone}
+                                        </TableCell>
+                                        <TableCell>
+                                            {user.lastVisitDate}
+                                        </TableCell>
+                                        <TableCell>
+                                            <Button variant="contained"
+                                                color="primary" startIcon={<AutorenewIcon />}>
+                                                Process FMRI
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Box>
+                </PerfectScrollbar>
+
+            </Card>
+        </>
+
     );
 }
 
