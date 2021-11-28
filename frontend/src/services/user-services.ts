@@ -36,6 +36,13 @@ class UserService {
         return responseData as any;
     }
 
+    async processFmriData(userId: number) {
+        console.log(userId)
+        let responseData = {};
+        await axios.post(APIURL.PROCESS_IMAGE, { patientId: userId }).then(res => responseData = res.data);
+        return responseData as any;
+    }
+
     // /** User Login */
     // async login(data: UserLogin) {
     //     let responseData: UserRegistrationResponse = {} as UserRegistrationResponse;

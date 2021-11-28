@@ -1,5 +1,5 @@
-import { Avatar, Box, Button, Card, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { Avatar, Box, Button, Card, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
+import React, { useCallback, useEffect, useState } from "react";
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
 import { useHistory } from "react-router-dom";
@@ -12,10 +12,34 @@ interface AssignedTaskProps {
 const AssignedTask: React.FC<AssignedTaskProps> = () => {
     const history = useHistory();
     const [userList, setUserList] = useState([] as PatientList[])
+    const [open, setOpen] = useState(false);
+    const [currentId, setCurrentId] = useState(0);
+    const [message, setMessage] = useState('Your FMRI data is being Processed. Please stay with us to know your results')
 
     useEffect(() => {
         setUserList(appStore.patientList as PatientList[]);
     }, []);
+
+    const handleClose = useCallback(() => {
+        appStore.userList = [];
+        appStore.getPatientsList();
+        setOpen(false);
+        history.push('/dashboard/' + currentId)
+    }, [currentId,history]);
+
+    const handleProcessFmri = useCallback(async (userId: number) => {
+        setOpen(true);
+        setCurrentId(userId)
+        console.log(currentId)
+        let finalVal = '';
+        await appStore.processFmri(userId);
+        if (appStore.processedData === 0) {
+            finalVal = 'NEGATIVE'
+        } else {
+            finalVal = 'POSITIVE'
+        }
+        setMessage('The test results after analyzing the FMRI reports of the patients turned out to be:' + finalVal)
+    }, [currentId]);
 
     return (
         <>
@@ -90,7 +114,8 @@ const AssignedTask: React.FC<AssignedTaskProps> = () => {
                                         </TableCell>
                                         <TableCell>
                                             <Button variant="contained"
-                                                color="primary" startIcon={<AutorenewIcon />}>
+                                                color="primary" startIcon={<AutorenewIcon />}
+                                                onClick={() => handleProcessFmri(user.patientId)}>
                                                 Process FMRI
                                             </Button>
                                         </TableCell>
@@ -100,6 +125,24 @@ const AssignedTask: React.FC<AssignedTaskProps> = () => {
                         </Table>
                     </Box>
                 </PerfectScrollbar>
+                <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"Using Bi-Directional LSTM to Predict Autism"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            {message}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary" autoFocus>
+                            OK
+                        </Button>
+                    </DialogActions>
+                </Dialog>
 
             </Card>
         </>

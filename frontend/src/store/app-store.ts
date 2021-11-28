@@ -11,6 +11,7 @@ class AppStore {
     @observable userList = [] as PatientList[];
     @observable userProfile = {} as PatientList;
     @observable patientTestReports: any;
+    @observable processedData: any;
 
     /** Login Service */
     @action.bound
@@ -48,6 +49,11 @@ class AppStore {
     @action.bound
     async getUserById(userId: string) {
         this.userProfile = await userService.getUserById(userId);
+    }
+
+    @action.bound
+    async processFmri(userId: number) {
+        this.processedData = await userService.processFmriData(userId);
     }
 
 }
