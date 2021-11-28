@@ -40,13 +40,13 @@ const UserProfile: React.FC<UserProfileProps> = () => {
             xs={12}
           >
             <ProfileSummary
-              firstName={appStore.getUsersProfile().firstName}
-              lastName={appStore.getUsersProfile().lastName}
+              fullName={appStore.getUsersProfile().patientName}
               city={appStore.getUsersProfile().city}
               state={appStore.getUsersProfile().state}
-              userId={userId} />
+              userId={userId}
+              testResults={appStore.getUsersProfile().testresults} />
             <br />
-            <ResultCard></ResultCard>
+            <ResultCard result={appStore.getUsersProfile().testresults}></ResultCard>
           </Grid>
           <Grid
             item

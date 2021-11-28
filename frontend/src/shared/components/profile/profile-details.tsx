@@ -64,14 +64,13 @@ const ProfileDetails = () => {
           container
           spacing={3}
         >
-          {renderTextFieldsWithLabels('FIRST NAME', appStore.getUsersProfile().firstName)}
-          {renderTextFieldsWithLabels('LAST NAME', appStore.getUsersProfile().lastName)}
+          {renderTextFieldsWithLabels('FIRST NAME', appStore.getUsersProfile().patientName)}
           {renderTextFieldsWithLabels('EMAIL', appStore.getUsersProfile().email)}
           {renderTextFieldsWithLabels('PHONE', appStore.getUsersProfile().phone)}
           {renderTextFieldsWithLabels('COUNTRY', appStore.getUsersProfile().city)}
           {renderTextFieldsWithLabels('STATE', appStore.getUsersProfile().state)}
-          {renderTextFieldsWithLabels('AGE', appStore.getUsersProfile().dateOfBirth)}
-          {renderTextFieldsWithLabels('LAST VISIT', appStore.getUsersProfile().userID?.toString())}
+          {renderTextFieldsWithLabels('AGE', appStore.getUsersProfile().age?.toString())}
+          {renderTextFieldsWithLabels('LAST VISIT', appStore.getUsersProfile().lastVisitDate?.toString())}
         </Grid>
       </CardContent>
       <Divider />

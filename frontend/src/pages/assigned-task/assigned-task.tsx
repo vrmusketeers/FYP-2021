@@ -1,15 +1,22 @@
 import { Avatar, Box, Button, Card, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { user_data } from '../../_mock/user-data';
 import AutorenewIcon from '@material-ui/icons/Autorenew';
+import { useHistory } from "react-router-dom";
+import { appStore } from "../../store/app-store";
 
 interface AssignedTaskProps {
 
 }
 
 const AssignedTask: React.FC<AssignedTaskProps> = () => {
-    const [limit] = useState(20);
+    const history = useHistory();
+    const [userList, setUserList] = useState([] as PatientList[])
+
+    useEffect(() => {
+        setUserList(appStore.patientList as PatientList[]);
+    }, []);
+
     return (
         <Card>
             <PerfectScrollbar>
@@ -26,9 +33,6 @@ const AssignedTask: React.FC<AssignedTaskProps> = () => {
                                     Age
                                 </TableCell>
                                 <TableCell>
-                                    Gender
-                                </TableCell>
-                                <TableCell>
                                     MRN No.
                                 </TableCell>
                                 <TableCell>
@@ -40,10 +44,11 @@ const AssignedTask: React.FC<AssignedTaskProps> = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {user_data.slice(0, limit).map((user) => (
+
+                            {userList.length > 0 && userList.filter(user => user.processed === 0).map((user) => (
                                 <TableRow
                                     hover
-                                    key={user.id}
+                                    key={user.MRNNo}
                                 >
                                     <TableCell padding="checkbox">
                                     </TableCell>
@@ -56,16 +61,15 @@ const AssignedTask: React.FC<AssignedTaskProps> = () => {
                                         >
                                             <Avatar
                                                 style={{ marginRight: 20 }}
-                                                src={user.avatarUrl}
                                             >
 
-                                                &nbsp;&nbsp; {user.name}
+                                                &nbsp;&nbsp; {user.patientName}
                                             </Avatar>
                                             <Typography
                                                 color="textPrimary"
                                                 variant="body1"
                                             >
-                                                {user.name}
+                                                {user.patientName}
                                             </Typography>
                                         </Box>
                                     </TableCell>
@@ -73,13 +77,10 @@ const AssignedTask: React.FC<AssignedTaskProps> = () => {
                                         {user.age}
                                     </TableCell>
                                     <TableCell>
-                                        {`${user.gender}`}
-                                    </TableCell>
-                                    <TableCell>
                                         {user.phone}
                                     </TableCell>
                                     <TableCell>
-                                        {user.createdAt}
+                                        {user.lastVisitDate}
                                     </TableCell>
                                     <TableCell>
                                         <Button variant="contained"

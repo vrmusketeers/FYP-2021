@@ -1,13 +1,16 @@
 interface PatientList {
+    MRNNo: string;
+    age: number;
     city: string;
+    country: string;
     dateOfBirth: string;
     email: string;
-    firstName: string;
-    lastName: string;
-    password: string;
+    lastVisitDate: string;
+    patientId: number;
+    patientName: string;
     phone: string;
+    processed: number;
     state: string;
-    userID: number;
-    userName: string;
-    userType: string;
+    testDate: string;
+    testresults: string;
 }

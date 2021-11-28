@@ -14,17 +14,17 @@ class UserService {
     /** Get list of Users */
     async registerExistingUser() {
         let responseData: PatientList[] = [];
-        await axios.get(APIURL.ALL_USERS).then((res: { data: PatientList[] }) => responseData = res.data);
+        await axios.get(APIURL.ALL_PATIENTS).then((res: { data: PatientList[] }) => responseData = res.data);
         console.log(responseData)
         return responseData as PatientList[];
     }
 
 
     async getUserById(userId: string) {
-        let responseData: UserProfile = {} as UserProfile;
-        await axios.get(`${APIURL.GET_PROFILE_BY_ID}/${userId}`).then((res: { data: UserProfile }) => responseData = res.data);
+        let responseData: PatientList = {} as PatientList;
+        await axios.get(`${APIURL.GET_PATIENT_PROFILE_BY_ID}${userId}`).then((res: { data: any }) => responseData = res.data[0]);
         console.log(responseData)
-        return responseData as UserProfile;
+        return responseData as PatientList;
     }
 
 
