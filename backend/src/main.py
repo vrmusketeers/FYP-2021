@@ -21,6 +21,9 @@ from flask_marshmallow import Marshmallow
 from flask_cors import CORS #comment this on deployment
 import datetime
 import json
+import requests
+import base64
+import numpy as np
 from datetime import datetime
 import os
 
@@ -350,6 +353,45 @@ def getAllPatientTestDetails():
                for row in cursor.fetchall()]
 
     return jsonify(results)
+
+@app.route('/processfmri', methods=['POST'])
+def processfmri():
+    patientId=request.json['patientId']
+
+    cursor = db.session.execute("""
+        select  tests.niifile from user, tests where user.userId = tests.patientID and user.userType='Patient' and tests.patientID=:param;
+    """,{"param":patientId})
+
+    data2 = cursor.fetchone()[0]
+
+    file_name=data2+'.nii.gz'
+    #file_name='Pitt_0050008_func_preproc.nii.gz'
+    print(file_name)
+    nii_file = {'nii_file':file_name}
+    API_ENDPOINT = "https://bidlstm-o-yjmgrhmjwq-uc.a.run.app/predict"
+    r = requests.post(url = API_ENDPOINT, json = nii_file)
+    y_preds = json.loads(r.text.replace("\n",""))['predictions'][0]
+    conval = np.mean(y_preds[0]) > 0.5 
+    if y_preds[0] >.57 :
+        diag_class = 1.0 
+    else :
+        diag_class = 0.0
+
+    cursor1 = db.session.execute ("""
+        UPDATE musketeerdb.patients
+        SET processed = '1'
+        WHERE PatientID =:param1;
+    """,{"param1":patientId})
+
+    cursor2 = db.session.execute ("""
+        UPDATE musketeerdb.tests
+        SET testResults =:param2
+        WHERE patientID =:param3; 
+    """,{"param2":diag_class,"param3":patientId})
+
+    db.session.commit()
+    return jsonify(diag_class)
+
 
 @app.route("/", defaults={'path':''})
 @app.route('/<path:path>')
