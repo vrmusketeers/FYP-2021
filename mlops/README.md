@@ -6,7 +6,7 @@ ML Ops is carried out in Vertex AI, a GCP based automation platform
 ### Create buckets to store the training data and generated models
 	> BUCKET_NAME="gs://<<bucket-name>>"
 	> gsutil mb -l us-central1 $BUCKET_NAME
-## Two modules exist for each of the model - training and prediction. In both the cases, it is important to build the docker containers using the docker files in the respective folders. 
+Two modules exist for each of the model - training and prediction. In both the cases, it is important to build the docker containers using the docker files in the respective folders. 
 ## Build docker instance on Jupyter Lab
 PROJECT_ID="nice-abbey-328722"
 	> IMAGE_URI="gcr.io/$PROJECT_ID/bidlstm:v1"
